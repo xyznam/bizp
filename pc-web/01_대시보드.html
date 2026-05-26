@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="icons.js"></script>
+<style>
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.card-title{font-size:13px;font-weight:700;color:#1A1A2E;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.card-link{font-size:11px;color:#3B5BDB;font-weight:600;cursor:pointer;text-decoration:none}
+.card-link:hover{text-decoration:underline}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.ch-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #EDF2F7}
+.ch-row:last-child{border-bottom:none}
+.ch-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ch-name{flex:1;font-size:12px;font-weight:600;color:#1A1A2E}
+.ch-meta{font-size:11px;color:#9AA0B4;text-align:right;line-height:1.5}
+.strategy-meta{font-size:11px;color:#9AA0B4;margin-bottom:12px;display:flex;gap:12px;flex-wrap:wrap}
+.strategy-meta strong{color:#4A5568;font-weight:600}
+.strategy-row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px solid #EDF2F7;font-size:12px}
+.strategy-row:last-child{border-bottom:none}
+.strategy-key{color:#9AA0B4;font-weight:600;white-space:nowrap;min-width:72px;flex-shrink:0}
+.strategy-val{color:#1A1A2E;line-height:1.6}
+.kw-tags{display:flex;flex-wrap:wrap;gap:5px}
+.kw-tag{padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.kw-owner{background:#EEF2FF;color:#3B5BDB}
+.kw-ai{background:#EBFBEE;color:#2F9E44}
+.tl-wrap{overflow-x:auto}
+.tl-grid{min-width:680px}
+.tl-header{display:flex;align-items:center;margin-bottom:4px}
+.tl-ch-col{width:80px;flex-shrink:0}
+.tl-dates-row{flex:1;display:grid;gap:1px}
+.tl-date{font-size:9px;color:#9AA0B4;text-align:center}
+.tl-date.today{color:#3B5BDB;font-weight:700}
+.tl-row{display:flex;align-items:center;border-top:1px solid #EDF2F7;padding:3px 0}
+.tl-ch-name{width:80px;flex-shrink:0;font-size:11px;color:#4A5568;font-weight:600}
+.tl-cells{flex:1;display:grid;gap:1px}
+.tl-cell{height:22px;display:flex;align-items:center;justify-content:center}
+.tl-dot{width:8px;height:8px;border-radius:50%;cursor:pointer;transition:.15s}
+.tl-dot:hover{transform:scale(1.5)}
+.tl-dot.published{background:#3B5BDB}
+.tl-dot.pending{background:#E8590C}
+.tl-dot.collected{background:#2F9E44}
+.tl-dot.scheduled{border:2px solid #2F9E44;background:transparent}
+.tl-legend{display:flex;gap:12px;margin-left:auto;flex-wrap:wrap}
+.tl-legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#9AA0B4}
+.tl-dot-sm{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; <span>대시보드</span></div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-ghost btn-sm" onclick="location.href='02_블로그관리.html'">블로그 관리</button>
+  </div>
+</div>
+<div class="main-content">
+
+  <!-- KPI -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">이번 달 발행</div>
+      <div class="kpi-val">14</div>
+      <div class="kpi-sub">블로그 기준</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">AI 생성 비율</div>
+      <div class="kpi-val">78%</div>
+      <div class="kpi-sub up">11 / 14건</div>
+    </div>
+    <div class="kpi-card alert" style="cursor:pointer" onclick="location.href='02_블로그관리.html'">
+      <div class="kpi-label">⚠ 승인 대기</div>
+      <div class="kpi-val">2</div>
+      <div style="margin-top:8px">
+        <button class="btn btn-sm" style="background:#E8590C;color:#fff;border:none;font-size:11px;height:26px;padding:0 10px">지금 확인 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2열 그리드 -->
+  <div class="two-col">
+
+    <!-- 수집 채널 등록 현황 -->
+    <div class="card" style="margin-bottom:0">
+      <div class="card-body">
+        <div class="card-title">
+          수집 채널 등록 현황
+          <a class="card-link" href="06_AI학습_현황.html">학습 현황 →</a>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon" style="background:#EEF2FF">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#03C75A" stroke-width="1.8"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+          </div>
+          <div class="ch-name">네이버 블로그</div>
+          <div class="ch-meta">
+            <div><span class="badge b-green">등록</span></div>
+            <div>수집 2026.05.16 · 다음 05.30</div>
+          </div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon" style="background:#EAFAF0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#03C75A" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="ch-name">네이버 플레이스</div>
+          <div class="ch-meta">
+            <div><span class="badge b-green">등록</span></div>
+            <div>수집 2026.05.16 · 다음 05.30</div>
+          </div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon" style="background:#FCE4F3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </div>
+          <div class="ch-name" style="color:#9AA0B4">인스타그램</div>
+          <div class="ch-meta"><span class="badge b-gray">미등록</span></div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon" style="background:#F1F3F5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9AA0B4" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+          <div class="ch-name" style="color:#9AA0B4">당근</div>
+          <div class="ch-meta"><span class="badge b-gray">미등록</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 마케팅 전략 현황 -->
+    <div class="card" style="margin-bottom:0">
+      <div class="card-body">
+        <div class="card-title">
+          마케팅 전략 현황
+          <a class="card-link" href="07_마케팅전략룰셋.html">자세히 보기 →</a>
+        </div>
+        <div class="strategy-meta">
+          <span>마지막 학습 <strong>2026.05.16</strong></span>
+          <span style="color:#E2E8F0">|</span>
+          <span>다음 수집 <strong>2026.05.30</strong></span>
+          <span style="color:#E2E8F0">|</span>
+          <span><span class="badge b-green" style="font-size:10px">룰셋 정상</span></span>
+        </div>
+        <div class="strategy-row">
+          <span class="strategy-key">매장 특징</span>
+          <span class="strategy-val">분당·수지 지역 커스텀 케이크 전문점 / 당일 제작 가능한 케이크 맛집</span>
+        </div>
+        <div class="strategy-row">
+          <span class="strategy-key">글쓰기 톤</span>
+          <span class="strategy-val">친근하고 감성적인 구어체 / 과장 없는 사실 기반</span>
+        </div>
+        <div class="strategy-row">
+          <span class="strategy-key">발행 방식</span>
+          <span class="strategy-val"><span class="badge b-blue" style="font-size:10px">승인 후 발행</span></span>
+        </div>
+        <div class="strategy-row">
+          <span class="strategy-key">대표 키워드</span>
+          <div class="kw-tags">
+            <span class="kw-tag kw-owner">분당 케이크</span>
+            <span class="kw-tag kw-owner">레터링케이크</span>
+            <span class="kw-tag kw-owner">당일제작</span>
+            <span class="kw-tag kw-ai">생일케이크</span>
+            <span class="kw-tag kw-ai">커스텀케이크</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /two-col -->
+
+  <!-- 이번 달 타임라인 -->
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
+        이번 달 타임라인
+        <div class="tl-legend">
+          <div class="tl-legend-item"><div class="tl-dot-sm" style="background:#3B5BDB"></div>발행 완료</div>
+          <div class="tl-legend-item"><div class="tl-dot-sm" style="background:#E8590C"></div>승인 대기</div>
+          <div class="tl-legend-item"><div class="tl-dot-sm" style="background:#2F9E44"></div>수집 완료</div>
+          <div class="tl-legend-item"><div class="tl-dot-sm" style="border:2px solid #2F9E44;background:transparent"></div>수집 예정</div>
+        </div>
+      </div>
+      <div class="tl-wrap">
+        <div class="tl-grid">
+          <div class="tl-header">
+            <div class="tl-ch-col"></div>
+            <div class="tl-dates-row" id="tlDates"></div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-ch-name">블로그 발행</div>
+            <div class="tl-cells" id="tlBlog"></div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-ch-name">AI 학습</div>
+            <div class="tl-cells" id="tlLearn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 이번 달 발행 목록 (최대 5건) -->
+  <div class="tbl-wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #E2E8F0">
+      <span style="font-size:12px;color:#4A5568">이번 달 발행 <strong style="color:#1A1A2E">14</strong>건</span>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;color:#9AA0B4">성과 데이터 기준 2026.05.16</span>
+        <a class="card-link" href="02_블로그관리.html">전체 보기 →</a>
+      </div>
+    </div>
+    <table class="tbl" style="table-layout:fixed">
+      <thead>
+        <tr>
+          <th style="width:80px">채널</th>
+          <th style="width:auto">제목</th>
+          <th style="width:60px">발행일</th>
+          <th style="width:72px">작성주체</th>
+          <th style="width:56px">조회수</th>
+          <th style="width:48px">댓글</th>
+          <th style="width:80px">상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="location.href='11_블로그_발행완료_상세.html'" style="cursor:pointer">
+          <td><span class="badge b-blue">블로그</span></td>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" class="td-link">분당 케이크 맛집 추천 — 커스텀 케이크 전문점 솔직 후기</td>
+          <td>05.14</td>
+          <td><span class="badge b-blue">AI 자동</span></td>
+          <td>1,240</td><td>8</td>
+          <td><span class="badge b-green">발행완료</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-blue">블로그</span></td>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">어버이날 케이크 당일 제작 가능해요</td>
+          <td>05.08</td>
+          <td><span class="badge b-gray">직접등록</span></td>
+          <td>880</td><td>3</td>
+          <td><span class="badge b-green">발행완료</span></td>
+        </tr>
+        <tr style="background:#FFF9F0;cursor:pointer" onclick="location.href='09_AI콘텐츠생성_상세.html'">
+          <td><span class="badge b-blue">블로그</span></td>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" class="td-link">분당 레터링케이크 커스텀 주문 후기</td>
+          <td class="td-empty">—</td>
+          <td><span class="badge b-blue">AI 자동</span></td>
+          <td class="td-empty">—</td><td class="td-empty">—</td>
+          <td><span class="badge b-orange">승인 대기</span></td>
+        </tr>
+        <tr style="background:#FFF9F0;cursor:pointer" onclick="location.href='09_AI콘텐츠생성_상세.html'">
+          <td><span class="badge b-blue">블로그</span></td>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" class="td-link">봄 시즌 딸기케이크 신메뉴 소개</td>
+          <td class="td-empty">—</td>
+          <td><span class="badge b-blue">AI 자동</span></td>
+          <td class="td-empty">—</td><td class="td-empty">—</td>
+          <td><span class="badge b-orange">승인 대기</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-blue">블로그</span></td>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">커스텀 케이크 전문 베이커리 — 분당 수지 추천</td>
+          <td>04.28</td>
+          <td><span class="badge b-gray">직접등록</span></td>
+          <td>320</td><td>1</td>
+          <td><span class="badge b-green">발행완료</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const TODAY = {year:2026, month:5, day:25};
+const curYear = 2026, curMonth = 5;
+const blogDays  = {3:'published',7:'published',10:'published',14:'published',20:'pending',23:'pending'};
+const learnDays = {16:'collected',30:'scheduled'};
+
+document.addEventListener('DOMContentLoaded', function(){
+  const days = new Date(curYear, curMonth, 0).getDate();
+
+  const datesEl = document.getElementById('tlDates');
+  datesEl.style.gridTemplateColumns='repeat('+days+',1fr)';
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');
+    el.className='tl-date'+(d===TODAY.day?' today':'');
+    el.textContent=d;
+    datesEl.appendChild(el);
+  }
+
+  function renderRow(elId, data){
+    const el=document.getElementById(elId);
+    el.style.gridTemplateColumns='repeat('+days+',1fr)';
+    for(let d=1;d<=days;d++){
+      const cell=document.createElement('div');
+      cell.className='tl-cell';
+      const s=data[d];
+      if(s){
+        const dot=document.createElement('div');
+        dot.className='tl-dot '+s;
+        const labels={published:'발행완료',pending:'승인대기',collected:'수집완료',scheduled:'수집예정'};
+        dot.title=d+'일 · '+labels[s];
+        cell.appendChild(dot);
+      }
+      el.appendChild(cell);
+    }
+  }
+  renderRow('tlBlog', blogDays);
+  renderRow('tlLearn', learnDays);
+});
+</script>
+</body>
+</html>

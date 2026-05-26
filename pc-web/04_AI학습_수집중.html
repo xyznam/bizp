@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="icons.js"></script>
+<style>
+.check-cell{width:32px;text-align:center}
+.fake-check{width:14px;height:14px;border-radius:3px;border:1.5px solid #E2E8F0;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;vertical-align:middle}
+.fake-check.on{background:#3B5BDB;border-color:#3B5BDB}
+.ai-suspect{font-size:10px;padding:1px 6px;border-radius:10px;background:#F7F8FA;color:#9AA0B4;border:1px solid #E2E8F0;margin-left:4px}
+tr.unchecked td{color:#9AA0B4}
+#content-select{display:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; AI 학습 &rsaquo; <span>수집 실행</span></div>
+</div>
+<div class="main-content">
+  <div class="page-title">AI 학습</div>
+
+  <!-- 수집 진행 카드 -->
+  <div id="progress-area">
+    <div class="progress-card" id="progress-card">
+      <div class="progress-title" id="progress-title">
+        <span class="spinner"></span> 수집 중
+        <span class="progress-meta">페이지를 벗어나도 수집은 계속 진행됩니다</span>
+      </div>
+      <div class="prog-ch-row" id="row-blog">
+        <span class="prog-ch-name"><span data-icon="rss" data-size="13" data-color="#03C75A"></span> 네이버 블로그</span>
+        <span class="s-ing"><span class="spinner" style="width:10px;height:10px;border-width:1.5px"></span> 수집 중 (23 / 50)</span>
+      </div>
+      <div class="prog-ch-row" style="margin-top:6px" id="row-place">
+        <span class="prog-ch-name"><span data-icon="map-pin" data-size="13" data-color="#03C75A"></span> 네이버 플레이스</span>
+        <span class="s-done"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg> 완료</span>
+      </div>
+      <div class="prog-ch-row" style="margin-top:6px" id="row-insta">
+        <span class="prog-ch-name"><span data-icon="instagram" data-size="13" data-color="#E1306C"></span> 인스타그램</span>
+        <span class="s-wait">대기 중</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 수집 완료 후 콘텐츠 선택 영역 -->
+  <div id="content-select">
+    <div class="divider" style="margin:24px 0"></div>
+
+    <div class="page-title" style="font-size:15px;margin-bottom:4px">분석할 콘텐츠 선택</div>
+    <div style="font-size:13px;color:#4A5568;margin-bottom:16px">수집된 콘텐츠 중 분석에 포함할 항목을 선택하세요.</div>
+
+    <div class="err-banner warning" style="margin-bottom:16px">
+      <div class="err-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F08C00" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        AI 작성 의심 콘텐츠 안내
+      </div>
+      <div class="err-desc">AI가 작성한 글을 분석에 포함하면 룰셋이 왜곡될 수 있습니다. 'AI 작성 의심' 표시된 항목은 기본적으로 체크 해제되어 있습니다. 직접 작성하거나 직접 발행한 글만 선택하는 것을 권장합니다.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span style="display:flex;align-items:center;gap:6px">
+          <span data-icon="rss" data-size="14" data-color="#03C75A"></span>
+          네이버 블로그 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 48개 수집</span>
+        </span>
+      </div>
+      <div class="card-body" style="padding:0">
+        <table class="tbl" style="table-layout:fixed">
+          <thead>
+            <tr>
+              <th class="check-cell">
+                <div class="fake-check on" style="margin:0 auto">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+              </th>
+              <th style="width:auto">제목</th>
+              <th style="width:64px">발행일</th>
+              <th style="width:60px">조회수</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="check-cell"><div class="fake-check on" style="margin:0 auto"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></td>
+              <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">성남 케이크 맛집 :: 분당 베이커리 솔직 후기</td>
+              <td>05.14</td><td>1,240</td>
+            </tr>
+            <tr>
+              <td class="check-cell"><div class="fake-check on" style="margin:0 auto"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></td>
+              <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">어버이날 케이크 당일 제작 가능해요 <span class="ai-suspect">AI 작성 의심</span></td>
+              <td>05.08</td><td>880</td>
+            </tr>
+            <tr class="unchecked">
+              <td class="check-cell"><div class="fake-check" style="margin:0 auto"></div></td>
+              <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">분당 레터링케이크 커스텀 주문 후기 <span class="ai-suspect">AI 작성 의심</span></td>
+              <td>04.22</td><td>540</td>
+            </tr>
+            <tr>
+              <td class="check-cell"><div class="fake-check on" style="margin:0 auto"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></td>
+              <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">봄 시즌 딸기케이크 신메뉴 소개</td>
+              <td>04.10</td><td>320</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding:10px 12px;font-size:11px;color:#9AA0B4">4 / 48개 표시 · <span style="color:#3B5BDB;cursor:pointer">전체 보기</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span style="display:flex;align-items:center;gap:6px">
+          <span data-icon="map-pin" data-size="14" data-color="#03C75A"></span>
+          네이버 플레이스 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 매장정보 및 리뷰 32건</span>
+        </span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:12px;color:#4A5568">플레이스 정보는 전체 포함됩니다. 개별 선택이 적용되지 않습니다.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+      <span style="font-size:12px;color:#4A5568">46개 선택됨</span>
+      <button class="btn btn-primary" onclick="location.href='06_AI학습_현황.html'">분석 실행</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  // 3초 후 수집 완료 → 콘텐츠 선택 영역 노출
+  setTimeout(()=>{
+    // 진행 카드 완료 상태로 변경
+    const card = document.getElementById('progress-card');
+    card.style.background = '#EBFBEE';
+    card.style.borderColor = '#8CE99A';
+
+    document.getElementById('progress-title').innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2F9E44" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      수집 완료
+      <span class="progress-meta">총 51개 수집됨</span>`;
+
+    ['row-blog','row-place','row-insta'].forEach(id=>{
+      const row = document.getElementById(id);
+      const statusEl = row.querySelector('.s-ing, .s-wait, .s-done');
+      if(statusEl) statusEl.outerHTML = '<span class="s-done"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg> 완료</span>';
+    });
+
+    // 콘텐츠 선택 영역 노출
+    document.getElementById('content-select').style.display = 'block';
+
+    // 스크롤 이동
+    document.getElementById('content-select').scrollIntoView({behavior:'smooth', block:'start'});
+  }, 3000);
+});
+</script>
+</body>
+</html>

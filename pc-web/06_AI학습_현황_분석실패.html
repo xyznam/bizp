@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+
+<style>
+.state-btn{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #E2E8F0;background:#fff;color:#4A5568;margin-right:6px}
+.state-btn.active{background:#EEF2FF;color:#3B5BDB;border-color:#3B5BDB}
+.photo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:14px}
+.photo-thumb{aspect-ratio:1;background:#F7F8FA;border-radius:6px;border:1px solid #E2E8F0;display:flex;align-items:center;justify-content:center}
+.kw-tag{font-size:11px;padding:3px 10px;border-radius:12px;background:#F7F8FA;color:#4A5568;border:1px solid #E2E8F0}
+.review-item{padding:10px 0;border-bottom:1px solid #EDF2F7}
+.review-item:last-child{border-bottom:none}
+.insta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.insta-card{border:1px solid #E2E8F0;border-radius:8px;overflow:hidden}
+.insta-thumb{aspect-ratio:1;background:#F7F8FA;display:flex;align-items:center;justify-content:center}
+.insta-info{padding:6px 8px}
+.sec-title{font-size:13px;font-weight:700;color:#1A1A2E;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+<script src="icons.js"></script>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; AI 학습 &rsaquo; <span>학습 현황 (분석 실패)</span></div>
+</div>
+<div class="main-content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div class="page-title" style="margin-bottom:0">AI 학습 현황</div>
+    <div>
+      <span style="font-size:11px;color:#9AA0B4;margin-right:12px">상태 보기:</span>
+      <button class="state-btn active" onclick="showState('normal',this)">정상</button>
+      <button class="state-btn" onclick="showState('err-collect',this)">수집 실패</button>
+      <button class="state-btn" onclick="showState('err-analyze',this)">분석 실패</button>
+      <button class="state-btn" onclick="showState('running',this)">재학습 중</button>
+    </div>
+  </div>
+
+  <!-- 상태 배너 영역 -->
+  <div id="state-area">
+  <div class="err-banner warning">
+    <div class="err-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F08C00" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 수집은 완료됐지만 분석에 실패했습니다</div>
+    <div class="err-desc">2026.05.30 콘텐츠 수집은 정상 완료됐으나 마케팅 전략 룰셋 생성 중 오류가 발생했습니다. 수집은 다시 하지 않아도 됩니다.</div>
+    <div><button class="btn btn-sm" style="background:#FFF9DB;color:#F08C00;border:1px solid #FFD43B">분석만 재실행</button></div>
+  </div>
+</div>
+
+  <!-- 학습 상태 카드 -->
+  <div class="card">
+    <div class="card-header">
+      <span>학습 상태</span>
+    </div>
+    <div class="card-body">
+      <div class="grid-4" style="margin-bottom:14px">
+        <div class="kpi-card"><div class="kpi-label">마지막 학습일</div><div class="kpi-val" style="font-size:16px">2026.05.16</div></div>
+        <div class="kpi-card"><div class="kpi-label">다음 수집 예정일</div><div class="kpi-val" style="font-size:16px">2026.05.30</div></div>
+        <div class="kpi-card"><div class="kpi-label">수집 주기</div><div class="kpi-val" style="font-size:16px">2주마다</div></div>
+        <div class="kpi-card"><div class="kpi-label">룰셋 상태</div><div class="kpi-val" style="font-size:16px;color:#2F9E44">✓ 생성 완료</div></div>
+      </div>
+      <div id="ch-status">
+        <div class="prog-ch-row"><span class="prog-ch-name"><span class="icon-rss" data-icon="rss" data-size="13" data-color="#03C75A"></span> 네이버 블로그</span><span class="badge b-green">정상</span></div>
+        <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-map-pin" data-icon="map-pin" data-size="13" data-color="#03C75A"></span> 네이버 플레이스</span><span class="badge b-green">정상</span></div>
+        <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-instagram" data-icon="instagram" data-size="13" data-color="#E1306C"></span> 인스타그램</span><span class="badge b-green">정상</span></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid #E2E8F0">
+        <span style="font-size:12px;color:#4A5568">마지막 학습 이후 새로 등록된 콘텐츠를 수집하여 룰셋을 업데이트합니다.</span>
+        <button class="btn btn-primary btn-sm" onclick="location.href='04_AI학습_수집중.html'">지금 재학습</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 수집 콘텐츠 -->
+  <div class="card">
+    <div class="card-header">수집 콘텐츠</div>
+    <div class="card-body" style="padding:0">
+      <div class="tab-row" style="padding:0 16px">
+        <div class="tab-item active" onclick="showTab('blog',this)">블로그 <span class="tab-count">48</span></div>
+        <div class="tab-item" onclick="showTab('place',this)">플레이스</div>
+        <div class="tab-item" onclick="showTab('insta',this)">인스타그램 <span class="tab-count">24</span></div>
+      </div>
+
+      <!-- 블로그 탭 -->
+      <div id="tab-blog" style="padding:0 16px 16px">
+        <table class="tbl" style="table-layout:fixed">
+          <thead><tr><th style="width:auto">제목</th><th style="width:64px">발행일</th><th style="width:60px">조회수</th></tr></thead>
+          <tbody>
+            <tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">성남 케이크 맛집 :: 분당 베이커리 솔직 후기</td><td>05.14</td><td>1,240</td></tr>
+            <tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">어버이날 케이크 당일 제작 가능해요</td><td>05.08</td><td>880</td></tr>
+            <tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">분당 레터링케이크 커스텀 주문 후기</td><td>04.22</td><td>540</td></tr>
+            <tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">봄 시즌 딸기케이크 신메뉴 소개</td><td>04.10</td><td>320</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:11px;color:#9AA0B4;margin-top:10px">4 / 48개 표시 · <span style="color:#3B5BDB;cursor:pointer">전체 보기</span></div>
+      </div>
+
+      <!-- 플레이스 탭 -->
+      <div id="tab-place" style="display:none;padding:0 16px 16px">
+        <div class="sec-title"><span class="icon-info" data-icon="info" data-size="14" data-color="currentColor"></span> 기본 정보 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 2026.05.16 수집</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:16px;border:1px solid #E2E8F0;border-radius:6px;overflow:hidden">
+          <div style="padding:7px 12px;border-bottom:1px solid #EDF2F7;border-right:1px solid #EDF2F7;font-size:12px;display:flex;gap:8px"><span style="color:#9AA0B4;min-width:56px">업종</span><span>베이커리·케이크</span></div>
+          <div style="padding:7px 12px;border-bottom:1px solid #EDF2F7;font-size:12px;display:flex;gap:8px"><span style="color:#9AA0B4;min-width:56px">브레이크</span><span>없음</span></div>
+          <div style="padding:7px 12px;border-bottom:1px solid #EDF2F7;border-right:1px solid #EDF2F7;font-size:12px;display:flex;gap:8px"><span style="color:#9AA0B4;min-width:56px">주소</span><span>경기 성남시 분당구 정자일로 95</span></div>
+          <div style="padding:7px 12px;border-bottom:1px solid #EDF2F7;font-size:12px;display:flex;gap:8px"><span style="color:#9AA0B4;min-width:56px">휴무일</span><span>매주 월요일</span></div>
+          <div style="padding:7px 12px;border-right:1px solid #EDF2F7;font-size:12px;display:flex;gap:8px"><span style="color:#9AA0B4;min-width:56px">영업시간</span><span>10:00 – 20:00</span></div>
+          <div style="padding:7px 12px;border-bottom:1px solid #EDF2F7;font-size:12px;display:flex;gap:8px"><span style="color:#9AA0B4;min-width:56px">주차</span><span>가능</span></div>
+          <div style="padding:7px 12px;grid-column:span 2;font-size:12px;display:flex;gap:8px"><span style="color:#9AA0B4;min-width:56px;flex-shrink:0">매장 소개</span><span style="line-height:1.6">분당 정자동에 위치한 커스텀 케이크 전문 베이커리입니다. 레터링 케이크, 당일 제작, 다양한 디자인 케이크를 합리적인 가격에 제공합니다.</span></div>
+        </div>
+
+        <hr class="divider">
+        <div class="sec-title"><span class="icon-utensils" data-icon="utensils" data-size="14" data-color="currentColor"></span> 메뉴 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 12개</span></div>
+        <table class="tbl" style="table-layout:fixed;margin-bottom:4px">
+          <thead><tr><th style="width:40px"></th><th>메뉴명</th><th style="width:80px">가격</th></tr></thead>
+          <tbody>
+            <tr><td><div style="width:32px;height:32px;background:#F7F8FA;border-radius:4px;border:1px solid #E2E8F0"></div></td><td>커스텀 레터링 케이크</td><td>48,000원~</td></tr>
+            <tr><td><div style="width:32px;height:32px;background:#F7F8FA;border-radius:4px;border:1px solid #E2E8F0"></div></td><td>딸기 생크림 케이크</td><td>32,000원</td></tr>
+            <tr><td><div style="width:32px;height:32px;background:#F7F8FA;border-radius:4px;border:1px solid #E2E8F0"></div></td><td>티라미수 케이크</td><td>28,000원</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:11px;color:#9AA0B4;margin-bottom:14px">3 / 12개 표시 · <span style="color:#3B5BDB;cursor:pointer">전체 보기</span></div>
+
+        <hr class="divider">
+        <div class="sec-title"><span class="icon-image" data-icon="image" data-size="14" data-color="currentColor"></span> 업체 사진 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 18장</span></div>
+        <div class="photo-grid" style="margin-bottom:14px">
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb" style="background:#EEF2FF"><span style="font-size:13px;font-weight:600;color:#3B5BDB">+14</span></div>
+        </div>
+
+        <div class="sec-title"><span class="icon-camera" data-icon="camera" data-size="14" data-color="currentColor"></span> 방문자 사진 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 43장</span></div>
+        <div class="photo-grid" style="margin-bottom:14px">
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb"><span class="icon-image" data-icon="image" data-size="18" data-color="#9AA0B4"></span></div>
+          <div class="photo-thumb" style="background:#EEF2FF"><span style="font-size:13px;font-weight:600;color:#3B5BDB">+39</span></div>
+        </div>
+
+        <hr class="divider">
+        <div class="sec-title"><span class="icon-star" data-icon="star" data-size="14" data-color="currentColor"></span> 리뷰 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 127개</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span style="font-size:22px;font-weight:700;color:#1A1A2E">4.7</span>
+          <span style="color:#F08C00;font-size:14px">★★★★★</span>
+          <span style="font-size:11px;color:#9AA0B4">영수증 리뷰 84 · 블로그 리뷰 43</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+          <span class="kw-tag">맛있어요 92</span>
+          <span class="kw-tag">친절해요 78</span>
+          <span class="kw-tag">분위기 좋아요 61</span>
+          <span class="kw-tag">포장 예뻐요 55</span>
+        </div>
+        <div class="review-item">
+          <div style="font-size:11px;color:#9AA0B4;margin-bottom:4px">2026.05.12 · 영수증 리뷰 ★★★★★</div>
+          <div style="font-size:12px;color:#1A1A2E;line-height:1.6">커스텀 케이크 주문했는데 생각보다 훨씬 예쁘게 만들어주셨어요. 맛도 너무 좋고 사장님도 친절하셨습니다.</div>
+        </div>
+        <div class="review-item">
+          <div style="font-size:11px;color:#9AA0B4;margin-bottom:4px">2026.05.08 · 영수증 리뷰 ★★★★☆</div>
+          <div style="font-size:12px;color:#1A1A2E;line-height:1.6">당일 케이크 픽업했는데 빠르게 만들어주셔서 감사했어요.</div>
+        </div>
+        <div style="font-size:11px;color:#9AA0B4;margin-top:8px">2 / 127개 표시 · <span style="color:#3B5BDB;cursor:pointer">전체 보기</span></div>
+
+        <hr class="divider">
+        <div class="sec-title"><span class="icon-megaphone" data-icon="megaphone" data-size="14" data-color="currentColor"></span> 소식 <span style="font-size:11px;color:#9AA0B4;font-weight:400">· 6개</span></div>
+        <table class="tbl" style="table-layout:fixed">
+          <thead><tr><th style="width:auto">내용</th><th style="width:60px">날짜</th></tr></thead>
+          <tbody>
+            <tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">어버이날 특별 케이크 사전 주문 받습니다</td><td>05.01</td></tr>
+            <tr><td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">5월 신메뉴 딸기 타르트 출시 안내</td><td>04.20</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 인스타 탭 -->
+      <div id="tab-insta" style="display:none;padding:0 16px 16px">
+        <div class="insta-grid">
+          <div class="insta-card"><div class="insta-thumb"><span class="icon-image" data-icon="image" data-size="20" data-color="#9AA0B4"></span></div><div class="insta-info"><div style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px">레터링케이크 주문 받아요 ✨</div><div style="font-size:10px;color:#9AA0B4;display:flex;gap:8px"><span>♥ 124</span><span>05.14</span></div></div></div>
+          <div class="insta-card"><div class="insta-thumb"><span class="icon-image" data-icon="image" data-size="20" data-color="#9AA0B4"></span></div><div class="insta-info"><div style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px">봄 한정 딸기케이크 🍓</div><div style="font-size:10px;color:#9AA0B4;display:flex;gap:8px"><span>♥ 98</span><span>05.10</span></div></div></div>
+          <div class="insta-card"><div class="insta-thumb"><span class="icon-image" data-icon="image" data-size="20" data-color="#9AA0B4"></span></div><div class="insta-info"><div style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px">어버이날 케이크 미리 예약 💐</div><div style="font-size:10px;color:#9AA0B4;display:flex;gap:8px"><span>♥ 87</span><span>04.28</span></div></div></div>
+          <div class="insta-card"><div class="insta-thumb"><span class="icon-image" data-icon="image" data-size="20" data-color="#9AA0B4"></span></div><div class="insta-info"><div style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px">분당 케이크 맛집 인정 🏆</div><div style="font-size:10px;color:#9AA0B4;display:flex;gap:8px"><span>♥ 76</span><span>04.22</span></div></div></div>
+        </div>
+        <div style="font-size:11px;color:#9AA0B4;margin-top:10px">4 / 24개 표시 · <span style="color:#3B5BDB;cursor:pointer">전체 보기</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 재학습 확인 모달 -->
+<div id="modal-relearn" class="modal-backdrop" style="display:none">
+  <div class="modal modal-sm">
+    <div class="modal-title">플레이스 채널 재학습</div>
+    <div class="modal-desc">네이버 플레이스 수집부터 분석까지 다시 실행합니다. 완료까지 수분이 소요될 수 있습니다.</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-relearn').style.display='none'">취소</button>
+      <button class="btn btn-primary" onclick="document.getElementById('modal-relearn').style.display='none'">재학습 실행</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+function showTab(tab, el){
+  ['blog','place','insta'].forEach(t=>document.getElementById('tab-'+t).style.display='none');
+  document.getElementById('tab-'+tab).style.display='block';
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function showState(state, btn){
+  document.querySelectorAll('.state-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const area = document.getElementById('state-area');
+  const chStatus = document.getElementById('ch-status');
+
+  if(state==='normal'){
+    area.innerHTML='';
+    chStatus.innerHTML=`
+      <div class="prog-ch-row"><span class="prog-ch-name"><span class="icon-rss" data-icon="rss" data-size="13" data-color="#03C75A"></span> 네이버 블로그</span><span class="badge b-green">정상</span></div>
+      <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-map-pin" data-icon="map-pin" data-size="13" data-color="#03C75A"></span> 네이버 플레이스</span><span class="badge b-green">정상</span></div>
+      <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-instagram" data-icon="instagram" data-size="13" data-color="#E1306C"></span> 인스타그램</span><span class="badge b-green">정상</span></div>`;
+  } else if(state==='err-collect'){
+    area.innerHTML=`
+      <div class="err-banner danger">
+        <div class="err-title"><span class="icon-alert-circle" data-icon="alert-circle" data-size="14" data-color="currentColor"></span> 자동 학습 중 수집 오류가 발생했습니다</div>
+        <div class="err-desc">2026.05.30 자동 수집 중 일부 채널에서 오류가 발생했습니다.</div>
+        <div style="margin-bottom:10px">
+          <div class="prog-ch-row"><span class="prog-ch-name"><span class="icon-rss" data-icon="rss" data-size="13" data-color="currentColor"></span> 네이버 블로그</span><span class="badge b-green">수집 완료</span></div>
+          <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-map-pin" data-icon="map-pin" data-size="13" data-color="currentColor"></span> 네이버 플레이스</span><span class="badge b-red">수집 실패</span></div>
+          <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-instagram" data-icon="instagram" data-size="13" data-color="currentColor"></span> 인스타그램</span><span class="badge b-green">수집 완료</span></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-danger btn-sm" onclick="document.getElementById('modal-relearn').style.display='flex'">실패 채널만 재학습</button>
+          <button class="btn btn-ghost btn-sm" style="border-color:#FFC9C9;color:#C92A2A">전체 재학습</button>
+        </div>
+      </div>`;
+    chStatus.innerHTML=`
+      <div class="prog-ch-row"><span class="prog-ch-name"><span class="icon-rss" data-icon="rss" data-size="13" data-color="#03C75A"></span> 네이버 블로그</span><span class="badge b-green">정상</span></div>
+      <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-map-pin" data-icon="map-pin" data-size="13" data-color="#03C75A"></span> 네이버 플레이스</span><span class="badge b-red">수집 실패</span></div>
+      <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-instagram" data-icon="instagram" data-size="13" data-color="#E1306C"></span> 인스타그램</span><span class="badge b-green">정상</span></div>`;
+  } else if(state==='err-analyze'){
+    area.innerHTML=`
+      <div class="err-banner warning">
+        <div class="err-title"><span class="icon-alert-triangle" data-icon="alert-triangle" data-size="14" data-color="currentColor"></span> 수집은 완료됐지만 분석에 실패했습니다</div>
+        <div class="err-desc">2026.05.30 콘텐츠 수집은 정상 완료됐으나 마케팅 전략 룰셋 생성 중 오류가 발생했습니다. 수집은 다시 하지 않아도 됩니다.</div>
+        <div><button class="btn btn-sm" style="background:#FFF9DB;color:#F08C00;border:1px solid #FFD43B">분석만 재실행</button></div>
+      </div>`;
+  } else if(state==='running'){
+    area.innerHTML=`
+      <div class="progress-card">
+        <div class="progress-title">
+          <span class="spinner"></span> 재학습 중
+          <span class="progress-meta">페이지를 벗어나도 계속 진행됩니다</span>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:#9AA0B4;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">수집 단계</div>
+        <div class="prog-ch-row"><span class="prog-ch-name"><span class="icon-rss" data-icon="rss" data-size="13" data-color="currentColor"></span> 네이버 블로그</span><span class="s-done"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg> 완료</span></div>
+        <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-map-pin" data-icon="map-pin" data-size="13" data-color="currentColor"></span> 네이버 플레이스</span><span class="s-ing"><span class="spinner" style="width:10px;height:10px;border-width:1.5px"></span> 수집 중</span></div>
+        <div class="prog-ch-row" style="margin-top:6px"><span class="prog-ch-name"><span class="icon-instagram" data-icon="instagram" data-size="13" data-color="currentColor"></span> 인스타그램</span><span class="s-wait">대기 중</span></div>
+        <div style="font-size:11px;font-weight:700;color:#9AA0B4;text-transform:uppercase;letter-spacing:.4px;margin:12px 0 8px">분석 단계</div>
+        <div class="prog-ch-row"><span class="prog-ch-name" style="color:#9AA0B4">마케팅 전략 룰셋 생성</span><span class="s-wait">수집 완료 후 시작</span></div>
+      </div>`;
+  }
+  
+}
+</script>
+</body>
+</html>

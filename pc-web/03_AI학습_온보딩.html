@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+
+</head>
+<body>
+<script src="icons.js"></script>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; AI 학습 &rsaquo; <span>학습 설정</span></div>
+</div>
+<div class="main-content">
+  <div class="page-title">AI 학습 설정</div>
+  <div style="font-size:13px;color:#4A5568;margin-bottom:20px">AI가 내 매장 콘텐츠를 학습하여 마케팅 전략 룰셋을 생성합니다. 한 번만 설정하면 이후에는 자동으로 업데이트됩니다.</div>
+
+  <!-- 채널 설정 -->
+  <div class="card">
+    <div class="card-header">
+      <span style="display:flex;align-items:center;gap:6px"><span class="icon-globe" data-icon="globe" data-size="14" data-color="currentColor"></span> 채널 설정</span>
+    </div>
+    <div class="card-body">
+      <div style="font-size:12px;color:#4A5568;margin-bottom:14px">매장정보에 등록된 URL을 자동으로 불러옵니다. 채널별로 수집 방식이 다르게 적용됩니다.</div>
+
+      <div class="channel-block">
+        <div class="channel-header">
+          <span class="channel-name"><span class="icon-rss" data-icon="rss" data-size="14" data-color="#03C75A"></span> 네이버 블로그</span>
+          <span class="badge b-blue">자동 불러옴</span>
+        </div>
+        <div class="channel-body">
+          <div class="channel-url-row">
+            <input type="text" value="https://blog.naver.com/mybakery2024" style="flex:1">
+            <button class="btn btn-ghost btn-sm"><span class="icon-trash-2" data-icon="trash-2" data-size="12" data-color="#9AA0B4"></span></button>
+          </div>
+          <div class="channel-url-row">
+            <span style="font-size:11px;color:#4A5568;white-space:nowrap">수집 범위</span>
+            <select style="width:160px">
+              <option>최근 50개</option>
+              <option>최근 100개</option>
+              <option>전체</option>
+            </select>
+          </div>
+          <div class="channel-url-row" style="margin-bottom:0">
+            <span style="font-size:11px;color:#4A5568;white-space:nowrap">수집 주기</span>
+            <select style="width:160px">
+              <option>매주</option>
+              <option selected>2주마다</option>
+              <option>매월</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="channel-block">
+        <div class="channel-header">
+          <span class="channel-name"><span class="icon-map-pin" data-icon="map-pin" data-size="14" data-color="#03C75A"></span> 네이버 플레이스</span>
+          <span class="badge b-blue">자동 불러옴</span>
+        </div>
+        <div class="channel-body">
+          <div class="channel-url-row">
+            <input type="text" value="https://naver.me/xxxxxx" style="flex:1">
+            <button class="btn btn-ghost btn-sm"><span class="icon-trash-2" data-icon="trash-2" data-size="12" data-color="#9AA0B4"></span></button>
+          </div>
+          <div class="channel-note" style="margin-top:8px">
+            <span style="flex-shrink:0;margin-top:1px" class="icon-info" data-icon="info" data-size="13" data-color="currentColor"></span>
+            플레이스는 매장 기본정보(업종, 소개, 운영시간 등)와 고객 리뷰를 수집합니다. 게시물 수집 범위는 적용되지 않습니다.
+          </div>
+          <div class="channel-url-row" style="margin-top:8px;margin-bottom:0">
+            <span style="font-size:11px;color:#4A5568;white-space:nowrap">수집 주기</span>
+            <select style="width:160px">
+              <option>매주</option>
+              <option selected>2주마다</option>
+              <option>매월</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="channel-block">
+        <div class="channel-header">
+          <span class="channel-name"><span class="icon-instagram" data-icon="instagram" data-size="14" data-color="#E1306C"></span> 인스타그램</span>
+          <span class="badge b-gray">미등록</span>
+        </div>
+        <div class="channel-body">
+          <div class="channel-url-row">
+            <input type="text" placeholder="URL을 입력하세요 (예: https://instagram.com/mybakery)" style="flex:1;color:#9AA0B4">
+          </div>
+          <div class="channel-url-row" style="margin-bottom:0">
+            <span style="font-size:11px;color:#4A5568;white-space:nowrap">수집 주기</span>
+            <select style="width:160px">
+              <option>매주</option>
+              <option selected>2주마다</option>
+              <option>매월</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="channel-block">
+        <div class="channel-header">
+          <span class="channel-name"><span class="icon-shopping-bag" data-icon="shopping-bag" data-size="14" data-color="#FF7010"></span> 당근</span>
+          <span class="badge b-gray">미등록</span>
+        </div>
+        <div class="channel-body">
+          <div class="channel-url-row">
+            <input type="text" placeholder="URL을 입력하세요" style="flex:1;color:#9AA0B4">
+          </div>
+          <div class="channel-url-row" style="margin-bottom:0">
+            <span style="font-size:11px;color:#4A5568;white-space:nowrap">수집 주기</span>
+            <select style="width:160px">
+              <option>매주</option>
+              <option selected>2주마다</option>
+              <option>매월</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 매장 소개 자료 -->
+  <div class="card">
+    <div class="card-header"><span style="display:flex;align-items:center;gap:6px"><span class="icon-file-text" data-icon="file-text" data-size="14" data-color="currentColor"></span> 매장 소개 자료</span></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:#4A5568;margin-bottom:12px">매장정보에서 업로드한 소개 자료도 학습에 포함됩니다.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid #E2E8F0;border-radius:6px;font-size:12px;color:#4A5568;background:#F7F8FA">
+          <span class="icon-file-text" data-icon="file-text" data-size="13" data-color="currentColor"></span> 브랜드소개서.pdf
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid #E2E8F0;border-radius:6px;font-size:12px;color:#4A5568;background:#F7F8FA">
+          <span class="icon-image" data-icon="image" data-size="13" data-color="currentColor"></span> 매장사진 12장
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid #E2E8F0;border-radius:6px;font-size:12px;color:#4A5568;background:#F7F8FA">
+          <span class="icon-file-text" data-icon="file-text" data-size="13" data-color="currentColor"></span> 메뉴판.pdf
+        </span>
+      </div>
+      <div style="font-size:11px;color:#9AA0B4;margin-top:8px">자료 추가는 매장정보에서 업로드할 수 있습니다.</div>
+    </div>
+  </div>
+
+  <!-- 대표 키워드 -->
+  <div class="card">
+    <div class="card-header"><span style="display:flex;align-items:center;gap:6px"><span class="icon-tag" data-icon="tag" data-size="14" data-color="currentColor"></span> 매장 대표 키워드</span></div>
+    <div class="card-body">
+      <div class="hint-box">
+        <span style="flex-shrink:0;margin-top:1px" class="icon-lightbulb" data-icon="lightbulb" data-size="14" data-color="currentColor"></span>
+        <span><strong>대표 키워드</strong>는 AI가 콘텐츠 주제를 추천할 때 기준이 되며, 블로그 글 발행 시 태그로도 자동 활용됩니다.<br>우리 매장을 잘 나타내는 메뉴명, 서비스명, 특징 등을 입력해 주세요. (예: 분당 케이크, 당일제작, 커스텀케이크)</span>
+      </div>
+      <div class="tag-input-wrap" style="margin-bottom:8px">
+        <span class="tag-item">분당 케이크 <span class="tag-remove">×</span></span>
+        <span class="tag-item">당일제작 <span class="tag-remove">×</span></span>
+        <span class="tag-item">커스텀케이크 <span class="tag-remove">×</span></span>
+        <span class="tag-item">레터링케이크 <span class="tag-remove">×</span></span>
+      </div>
+      <input type="text" placeholder="키워드 입력 후 Enter" style="width:100%">
+    </div>
+  </div>
+  </div>
+
+  <!-- 콘텐츠 생성 설정 -->
+  <div class="card">
+    <div class="card-header"><span style="display:flex;align-items:center;gap:6px"><i data-lucide="settings" style="width:14px;height:14px"></i> 콘텐츠 생성 설정</span></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:#4A5568;margin-bottom:14px">AI가 자동 생성한 콘텐츠의 발행 방식을 설정합니다.</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #3B5BDB;border-radius:6px;background:#EEF2FF;cursor:pointer">
+          <input type="radio" name="publish_mode" checked style="margin-top:2px;accent-color:#3B5BDB;height:14px;width:14px;flex-shrink:0">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px">승인 후 발행 요청</div>
+            <div style="font-size:12px;color:#4A5568">생성된 콘텐츠를 직접 검토한 후 발행 요청합니다. 콘텐츠 생성 시 승인 요청 알림을 보내드리며, 블로그 관리에서 승인 대기 항목을 확인하세요.</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid #E2E8F0;border-radius:6px;background:#fff;cursor:pointer">
+          <input type="radio" name="publish_mode" style="margin-top:2px;accent-color:#3B5BDB;height:14px;width:14px;flex-shrink:0">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#1A1A2E;margin-bottom:2px">자동 발행 요청</div>
+            <div style="font-size:12px;color:#4A5568">생성 즉시 발행 요청이 접수됩니다. 생성 완료 시 알림으로 안내드립니다.</div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
+    <button class="btn btn-ghost">저장</button>
+    <button class="btn btn-primary" onclick="location.href='04_AI학습_수집중.html'">저장 후 수집 실행</button>
+  </div>
+</div>
+<script></script>
+</body>
+</html>

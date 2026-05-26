@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+
+<style>
+.img-card{border:1px solid #E2E8F0;border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.img-card.selected{border:2px solid #3B5BDB}
+.img-thumb{aspect-ratio:1;background:#F7F8FA;display:flex;align-items:center;justify-content:center}
+.img-label{font-size:11px;padding:6px 8px;color:#4A5568;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #E2E8F0}
+.sel-dot{width:16px;height:16px;border-radius:50%;background:#3B5BDB;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.seo-bar{display:flex;align-items:center;gap:10px}
+.seo-track{flex:1;height:5px;background:#EDF2F7;border-radius:10px;overflow:hidden}
+.seo-fill{height:100%;background:#2F9E44;border-radius:10px;width:84%}
+.action-bar{background:#F7F8FA;border:1px solid #E2E8F0;border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:4px}
+</style>
+</head>
+<body>
+<script src="icons.js"></script>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; AI 콘텐츠 자동 생성 &rsaquo; <span>콘텐츠 상세</span></div>
+</div>
+<div class="main-content">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;cursor:pointer" onclick="location.href='08_AI콘텐츠생성_목록.html'">
+    <span class="icon-arrow-left" data-icon="arrow-left" data-size="14" data-color="#4A5568"></span>
+    <span style="font-size:13px;color:#4A5568">목록으로</span>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#1A1A2E;margin-bottom:4px">분당 케이크 맛집 추천 — 커스텀 케이크 전문점 솔직 후기</div>
+        <div style="font-size:11px;color:#9AA0B4">2026.05.23 생성 · 블로그</div>
+      </div>
+      <span class="badge b-orange">승인 대기</span>
+    </div>
+    <div class="card-body">
+
+      <!-- 본문 -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:#4A5568;margin-bottom:6px">본문</div>
+        <div style="font-size:12px;color:#1A1A2E;background:#F7F8FA;border:1px solid #E2E8F0;border-radius:6px;padding:12px 14px;line-height:1.8;max-height:160px;overflow:hidden">
+          분당에서 케이크 맛집을 찾고 계신다면 이곳을 추천드려요. 커스텀 레터링 케이크부터 당일 제작까지 가능한 베이커리인데요. 직접 방문해보니 매장 분위기도 깔끔하고 케이크 퀄리티가 생각보다 훨씬 좋았어요.<br><br>
+          특히 레터링 케이크는 원하는 문구를 자유롭게 넣을 수 있어서 생일, 기념일 선물로 딱이더라고요. 가격도 합리적인 편이고 당일 제작도 가능해서 급하게 필요할 때도 믿고 맡길 수 있어요.<br><br>
+          위치는 분당구 정자동에 있고, 주차도 가능합니다. 영업시간은 평일 10시부터 8시까지예요.
+        </div>
+        <div style="font-size:11px;color:#3B5BDB;margin-top:6px;cursor:pointer">전체 보기 ↓</div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- SEO 점수 -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:#4A5568;margin-bottom:8px">SEO 점수</div>
+        <div class="seo-bar">
+          <span style="font-size:22px;font-weight:700;color:#2F9E44">84</span>
+          <div class="seo-track"><div class="seo-fill"></div></div>
+          <span style="font-size:11px;color:#4A5568">지역 키워드 보강 권장</span>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 이미지 선택 -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:#4A5568;margin-bottom:8px">이미지 <span style="color:#9AA0B4;font-weight:400">· 발행할 이미지를 선택하세요</span></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+          <div class="img-card selected" onclick="selectImg(this)">
+            <div class="img-thumb"><span class="icon-image" data-icon="image" data-size="24" data-color="#9AA0B4"></span></div>
+            <div class="img-label">이미지 1 <div class="sel-dot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></div>
+          </div>
+          <div class="img-card" onclick="selectImg(this)">
+            <div class="img-thumb"><span class="icon-image" data-icon="image" data-size="24" data-color="#9AA0B4"></span></div>
+            <div class="img-label">이미지 2</div>
+          </div>
+          <div class="img-card" onclick="selectImg(this)">
+            <div class="img-thumb"><span class="icon-image" data-icon="image" data-size="24" data-color="#9AA0B4"></span></div>
+            <div class="img-label">이미지 3</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 액션 바 -->
+  <div class="action-bar">
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm"><span class="icon-refresh-cw" data-icon="refresh-cw" data-size="12" data-color="currentColor"></span> 글 재생성</button>
+      <button class="btn btn-ghost btn-sm"><span class="icon-refresh-cw" data-icon="refresh-cw" data-size="12" data-color="currentColor"></span> 이미지 재생성</button>
+      <button class="btn btn-danger btn-sm" onclick="document.getElementById('modal-cancel').style.display='flex'">취소</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-schedule').style.display='flex'">일시 지정 발행 요청</button>
+      <button class="btn btn-primary">바로 발행 요청</button>
+    </div>
+  </div>
+</div>
+
+<!-- 일시 지정 모달 -->
+<div id="modal-schedule" class="modal-backdrop" style="display:none">
+  <div class="modal modal-sm">
+    <div class="modal-title">발행 일시 지정</div>
+    <div class="modal-desc">대행사에 발행을 요청할 일시를 지정해 주세요.</div>
+    <div class="modal-field">
+      <label>발행 희망 일시</label>
+      <input type="text" value="2026.06.01 10:00" style="width:100%">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-schedule').style.display='none'">취소</button>
+      <button class="btn btn-primary" onclick="document.getElementById('modal-schedule').style.display='none'">발행 요청</button>
+    </div>
+  </div>
+</div>
+
+<!-- 취소 확인 모달 -->
+<div id="modal-cancel" class="modal-backdrop" style="display:none">
+  <div class="modal modal-sm">
+    <div class="modal-title">콘텐츠 발행을 취소할까요?</div>
+    <div class="modal-desc">이 콘텐츠를 취소하면 발행 요청을 할 수 없습니다. 계속하시겠습니까?</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-cancel').style.display='none'">돌아가기</button>
+      <button class="btn btn-danger" onclick="document.getElementById('modal-cancel').style.display='none'">취소 확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function selectImg(el){
+  document.querySelectorAll('.img-card').forEach(c=>{
+    c.classList.remove('selected');
+    c.style.border='1px solid #E2E8F0';
+    const dot=c.querySelector('.sel-dot');
+    if(dot) dot.remove();
+    c.querySelector('.img-label').style.justifyContent='flex-start';
+  });
+  el.classList.add('selected');
+  el.style.border='2px solid #3B5BDB';
+  const label=el.querySelector('.img-label');
+  const dot=document.createElement('div');
+  dot.className='sel-dot';
+  dot.innerHTML='<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>';
+  label.style.justifyContent='space-between';
+  label.appendChild(dot);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+
+</head>
+<body>
+<script src="icons.js"></script>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; <span>블로그 관리</span></div>
+</div>
+<div class="main-content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div class="page-title" style="margin-bottom:0">블로그 관리</div>
+    <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#4A5568">
+      <span>자동 생성 주기</span>
+      <select style="height:28px;font-size:12px;width:100px">
+        <option>매주</option>
+        <option selected>2주마다</option>
+        <option>매월</option>
+      </select>
+      <span style="color:#9AA0B4">다음 생성 예정일 <span style="color:#1A1A2E;font-weight:500">2026.05.30</span></span>
+    </div>
+  </div>
+
+  <!-- 승인 대기 alert (승인 대기 건 있을 때만 노출) -->
+  <div style="background:#FFF4E6;border:1px solid #FFA94D;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:8px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E8590C" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span style="font-size:13px;font-weight:600;color:#E8590C">승인 대기 2건</span>
+      <span style="font-size:12px;color:#E8590C;opacity:.8">AI가 생성한 콘텐츠를 검토하고 발행 요청해 주세요.</span>
+    </div>
+    <button class="btn btn-sm" style="background:#E8590C;color:#fff;border:none">지금 확인</button>
+  </div>
+
+  <div style="font-size:11px;color:#9AA0B4;margin-bottom:16px;display:flex;align-items:center;gap:5px">
+    <span class="icon-refresh-cw" data-icon="refresh-cw" data-size="12" data-color="currentColor"></span>
+    성과 데이터 마지막 업데이트: 2026.05.16
+  </div>
+
+  <div class="filter-bar">
+    <span class="f-label">작성주체</span>
+    <select style="width:120px">
+      <option>전체</option>
+      <option>AI 자동</option>
+      <option>직접등록</option>
+    </select>
+    <span class="f-label">발행상태</span>
+    <select style="width:120px">
+      <option>전체</option>
+      <option>발행완료</option>
+      <option>발행예약</option>
+      <option>승인대기</option>
+      <option>취소</option>
+    </select>
+    <span class="f-label">기간</span>
+    <select style="width:120px">
+      <option>전체</option>
+      <option>최근 1개월</option>
+      <option>최근 3개월</option>
+    </select>
+    <button class="btn btn-primary btn-sm">검색</button>
+    <button class="btn btn-ghost btn-sm">초기화</button>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="tbl" style="table-layout:fixed">
+      <thead>
+        <tr>
+          <th style="width:auto">제목</th>
+          <th style="width:80px">작성주체</th>
+          <th style="width:88px">발행상태</th>
+          <th style="width:60px">조회수</th>
+          <th style="width:48px">댓글</th>
+          <th style="width:60px">SEO</th>
+          <th style="width:72px">발행일</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="location.href='11_블로그_발행완료_상세.html'" style="cursor:pointer">
+          <td class="td-link" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            분당 케이크 맛집 추천 — 커스텀 케이크 전문점 솔직 후기
+            <span style="margin-left:4px" class="icon-external-link" data-icon="external-link" data-size="11" data-color="#9AA0B4"></span>
+          </td>
+          <td><span class="badge b-blue">AI 자동</span></td>
+          <td><span class="badge b-green">발행완료</span></td>
+          <td>1,240</td>
+          <td>8</td>
+          <td><span class="badge b-green" style="font-size:10px">84점</span></td>
+          <td>05.14</td>
+        </tr>
+        <tr onclick="location.href='10_블로그_발행대기_상세.html'" style="cursor:pointer">
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            어버이날 케이크 당일 제작 가능해요
+            <span style="margin-left:4px" class="icon-external-link" data-icon="external-link" data-size="11" data-color="#9AA0B4"></span>
+          </td>
+          <td><span class="badge b-blue">AI 자동</span></td>
+          <td><span class="badge b-yellow">발행예약</span></td>
+          <td class="td-empty">—</td>
+          <td class="td-empty">—</td>
+          <td><span class="badge b-yellow" style="font-size:10px">71점</span></td>
+          <td>05.30 예정</td>
+        </tr>
+        <tr onclick="location.href='09_AI콘텐츠생성_상세.html'" style="cursor:pointer">
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            분당 케이크 맛집 — AI 자동 생성 승인 대기 중
+            <span style="margin-left:4px" class="icon-external-link" data-icon="external-link" data-size="11" data-color="#9AA0B4"></span>
+          </td>
+          <td><span class="badge b-blue">AI 자동</span></td>
+          <td><span class="badge b-orange">승인대기</span></td>
+          <td class="td-empty">—</td>
+          <td class="td-empty">—</td>
+          <td><span class="badge b-blue" style="font-size:10px">78점</span></td>
+          <td class="td-empty">—</td>
+        </tr>
+        <tr>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            봄 시즌 딸기케이크 신메뉴 소개
+            <span style="margin-left:4px" class="icon-external-link" data-icon="external-link" data-size="11" data-color="#9AA0B4"></span>
+          </td>
+          <td><span class="badge b-gray">직접등록</span></td>
+          <td class="td-empty">—</td>
+          <td>540</td>
+          <td>3</td>
+          <td class="td-empty">—</td>
+          <td>04.10</td>
+        </tr>
+        <tr>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            커스텀 케이크 전문 베이커리 — 분당 수지 추천
+            <span style="margin-left:4px" class="icon-external-link" data-icon="external-link" data-size="11" data-color="#9AA0B4"></span>
+          </td>
+          <td><span class="badge b-gray">직접등록</span></td>
+          <td class="td-empty">—</td>
+          <td>320</td>
+          <td>1</td>
+          <td class="td-empty">—</td>
+          <td>03.28</td>
+        </tr>
+        <tr>
+          <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+            레터링케이크 주문 방법 안내
+            <span style="margin-left:4px" class="icon-external-link" data-icon="external-link" data-size="11" data-color="#9AA0B4"></span>
+          </td>
+          <td><span class="badge b-blue">AI 자동</span></td>
+          <td><span class="badge b-gray">취소</span></td>
+          <td class="td-empty">—</td>
+          <td class="td-empty">—</td>
+          <td><span class="badge b-gray" style="font-size:10px">65점</span></td>
+          <td class="td-empty">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button class="pg-btn disabled"><span class="icon-chevron-left" data-icon="chevron-left" data-size="12" data-color="currentColor"></span></button>
+    <button class="pg-btn active">1</button>
+    <button class="pg-btn">2</button>
+    <button class="pg-btn">3</button>
+    <button class="pg-btn"><span class="icon-chevron-right" data-icon="chevron-right" data-size="12" data-color="currentColor"></span></button>
+  </div>
+</div>
+<script></script>
+</body>
+</html>

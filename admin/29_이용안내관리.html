@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>이용안내 관리 | BizPlanet Admin</title>
+<style>/* ── BizPlanet Admin Base Styles ── */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F5F6FA;
+  --surface:#fff;
+  --surface2:#F7F8FA;
+  --text:#1A1A2E;
+  --text2:#4A5568;
+  --text3:#9AA0B4;
+  --border:#E2E8F0;
+  --border2:#EDF2F7;
+  --blue:#3B5BDB;
+  --blue-l:#EEF2FF;
+  --blue-d:#2C46C3;
+  --green:#2F9E44;
+  --green-l:#EBFBEE;
+  --orange:#E8590C;
+  --orange-l:#FFF4E6;
+  --red:#C92A2A;
+  --red-l:#FFF5F5;
+  --gray:#868E96;
+  --gray-l:#F1F3F5;
+  --yellow:#F08C00;
+  --yellow-l:#FFF9DB;
+  --sidebar-w:200px;
+  --topbar-h:50px;
+}
+body{background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--text);font-size:13px;line-height:1.5}
+a{text-decoration:none;color:inherit}
+
+/* ── Sidebar ── */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+.sb-logo{padding:16px 18px;font-size:15px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);letter-spacing:-.3px}
+.sb-logo em{color:var(--blue);font-style:normal}
+.sb-badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--blue);color:#fff;margin-left:4px;vertical-align:middle;letter-spacing:.2px}
+.sb-section{padding:16px 18px 4px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 18px;font-size:12px;color:var(--text2);cursor:pointer;transition:.15s;border-left:2px solid transparent}
+.sb-item:hover{background:var(--surface2);color:var(--text)}
+.sb-item.active{background:var(--blue-l);color:var(--blue);font-weight:600;border-left-color:var(--blue)}
+.sb-item .si{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+
+/* ── Topbar ── */
+.topbar{position:fixed;top:0;left:var(--sidebar-w);right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:8px;z-index:99}
+.topbar-path{font-size:12px;color:var(--text3);flex:1;display:flex;align-items:center;gap:4px}
+.topbar-path strong{color:var(--text);font-weight:600}
+.topbar-path .sep{color:var(--border)}
+.topbar-user{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
+.topbar-avatar{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── Main ── */
+.main{margin-left:var(--sidebar-w);margin-top:var(--topbar-h);padding:24px;min-height:calc(100vh - var(--topbar-h))}
+
+/* ── Page header ── */
+.page-h{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
+.page-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.page-sub{font-size:12px;color:var(--text3);margin-top:3px}
+.page-actions{display:flex;align-items:center;gap:8px}
+
+/* ── Filter bar ── */
+.filter-bar{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.filter-bar .f-label{font-size:11px;font-weight:700;color:var(--text3);white-space:nowrap}
+
+/* ── Inputs / Selects ── */
+input[type=text],input[type=search],input[type=email],input[type=date],select,textarea{
+  height:32px;padding:0 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:var(--text);background:var(--surface);outline:none;transition:.15s}
+input[type=text]:focus,input[type=search]:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,91,219,.1)}
+textarea{height:auto;padding:8px 10px;resize:vertical}
+.input-lg{width:220px}
+.input-md{width:160px}
+.input-sm{width:120px}
+select{padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239AA0B4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;appearance:none}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:0 14px;height:32px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'Noto Sans KR',sans-serif;transition:.15s;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-d)}
+.btn-ghost{background:var(--surface);color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--surface2)}
+.btn-danger{background:var(--red-l);color:var(--red);border:1px solid #FFC9C9}
+.btn-sm{height:26px;padding:0 10px;font-size:11px}
+.btn-xs{height:22px;padding:0 8px;font-size:11px}
+
+/* ── Table ── */
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.tbl-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.tbl-count{font-size:12px;color:var(--text2)}
+.tbl-count strong{color:var(--text);font-weight:700}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--surface2)}
+th{padding:10px 12px;font-size:11px;font-weight:700;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:11px 12px;font-size:12px;color:var(--text);border-bottom:1px solid var(--border2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+.td-center{text-align:center}
+.td-right{text-align:right}
+.td-link{color:var(--blue);cursor:pointer;font-weight:500}
+.td-link:hover{text-decoration:underline}
+.td-mono{font-family:monospace;font-size:11px;color:var(--text2)}
+
+/* ── Badge / Status ── */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-l);color:var(--green)}
+.b-blue{background:var(--blue-l);color:var(--blue)}
+.b-orange{background:var(--orange-l);color:var(--orange)}
+.b-red{background:var(--red-l);color:var(--red)}
+.b-gray{background:var(--gray-l);color:var(--gray)}
+.b-yellow{background:var(--yellow-l);color:var(--yellow)}
+
+/* ── Card ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+
+/* ── Form ── */
+.form-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.form-section-title{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text);background:var(--surface2)}
+.form-body{padding:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 20px}
+.form-item{display:flex;flex-direction:column;gap:5px}
+.form-item.full{grid-column:1/-1}
+.form-label{font-size:11px;font-weight:700;color:var(--text2)}
+.form-label.req::after{content:'*';color:var(--red);margin-left:2px}
+.form-hint{font-size:11px;color:var(--text3)}
+.form-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:14px 16px;border-top:1px solid var(--border);background:var(--surface2)}
+
+/* ── Pagination ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:4px;padding:16px}
+.pg-btn{width:28px;height:28px;border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;background:var(--surface);color:var(--text2);transition:.15s}
+.pg-btn:hover{background:var(--surface2)}
+.pg-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700}
+.pg-btn.disabled{opacity:.4;cursor:default}
+
+/* ── Misc ── */
+.divider{height:1px;background:var(--border);margin:16px 0}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;background:var(--gray-l);color:var(--text2)}
+.kpi-row{display:grid;gap:12px;margin-bottom:16px}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.kpi-label{font-size:11px;color:var(--text3);margin-bottom:4px}
+.kpi-val{font-size:22px;font-weight:700;color:var(--text);font-family:Georgia,serif}
+.kpi-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.kpi-sub.up{color:var(--green)}
+.kpi-sub.down{color:var(--red)}
+.sidebar a{color:inherit;text-decoration:none;display:block;width:100%}
+.sb-item a{color:inherit}
+
+/* ── iframe embed: hide sidebar & topbar ── */
+html.in-frame .sidebar { display: none !important; }
+html.in-frame .topbar  { display: none !important; }
+html.in-frame .main    { margin-left: 0 !important; margin-top: 0 !important; }
+</style></head><body>
+<aside class="sidebar">
+  <div class="sb-logo">BizPlanet <em>Admin</em></div>
+  <div class="sb-section">회원/계정</div>
+  <div class="sb-item "><span class="si">👥</span><a href="01_회원현황.html">회원 현황</a></div>
+  <div class="sb-item "><span class="si">🏢</span><a href="02_대행사관리.html">대행사 관리</a></div>
+  <div class="sb-item "><span class="si">🏪</span><a href="03_소호업체관리.html">소호 업체 관리</a></div>
+  <div class="sb-item "><span class="si">✅</span><a href="04_회원승인관리.html">회원 승인 관리</a></div>
+  <div class="sb-item "><span class="si">📋</span><a href="05_계정로그.html">계정 로그</a></div>
+  <div class="sb-section">매장 관리</div>
+  <div class="sb-item "><span class="si">🗺</span><a href="06_매장전체조회.html">매장 전체 조회</a></div>
+  <div class="sb-item "><span class="si">✏️</span><a href="07_매장정보관리.html">매장 정보 관리</a></div>
+  <div class="sb-item "><span class="si">⚙️</span><a href="08_서비스설정대행.html">서비스 설정 대행</a></div>
+  <div class="sb-section">마케팅 채널</div>
+  <div class="sb-item "><span class="si">📝</span><a href="09_전체콘텐츠현황.html">전체 콘텐츠 현황</a></div>
+  <div class="sb-item "><span class="si">🤖</span><a href="10_AI학습모니터링.html">AI 학습 모니터링</a></div>
+  <div class="sb-item "><span class="si">📐</span><a href="11_마케팅룰셋관리.html">마케팅 룰셋 관리</a></div>
+  <div class="sb-section">비즈챗</div>
+  <div class="sb-item "><span class="si">💬</span><a href="13_비즈챗전체발송현황.html">전체 발송 현황</a></div>
+  <div class="sb-item "><span class="si">📄</span><a href="14_템플릿관리.html">템플릿 관리</a></div>
+  <div class="sb-item "><span class="si">🔍</span><a href="16_고언연검수관리.html">고언연 검수 관리</a></div>
+  <div class="sb-item "><span class="si">🎯</span><a href="17_타겟그룹관리.html">타겟 그룹 관리</a></div>
+  <div class="sb-section">요금제/크레딧</div>
+  <div class="sb-item "><span class="si">💳</span><a href="18_요금제관리.html">요금제 관리</a></div>
+  <div class="sb-item "><span class="si">📊</span><a href="19_업체별요금제현황.html">업체별 요금제</a></div>
+  <div class="sb-item "><span class="si">🔢</span><a href="20_사용한도관리.html">사용한도 관리</a></div>
+  <div class="sb-item "><span class="si">💰</span><a href="21_결제내역.html">결제 내역</a></div>
+  <div class="sb-section">운영 모니터링</div>
+  <div class="sb-item "><span class="si">🖥</span><a href="22_서비스대시보드.html">서비스 대시보드</a></div>
+  <div class="sb-item "><span class="si">⚙</span><a href="23_배치잡모니터링.html">배치 잡 모니터링</a></div>
+  <div class="sb-item "><span class="si">📜</span><a href="24_시스템로그.html">시스템 로그</a></div>
+  <div class="sb-section">통계/리포트</div>
+  <div class="sb-item "><span class="si">📈</span><a href="27_서비스별사용통계.html">서비스별 사용 통계</a></div>
+  <div class="sb-item "><span class="si">💵</span><a href="28_매출리포트.html">매출 리포트</a></div>
+  <div class="sb-section">고객센터</div>
+  <div class="sb-item active"><span class="si">📢</span><a href="25_공지사항관리.html">공지사항 관리</a></div>
+  <div class="sb-item "><span class="si">❓</span><a href="30_FAQ관리.html">FAQ 관리</a></div>
+  <div class="sb-item "><span class="si">📩</span><a href="31_1대1문의관리.html">1:1 문의 관리</a></div>
+</aside>
+<div class="topbar"><div class="topbar-path">고객센터 <span class="sep">›</span> <strong>이용안내 관리</strong></div><div class="topbar-user"><div class="topbar-avatar">관</div>슈퍼관리자</div></div>
+<div class="main">
+  <div class="page-h">
+    <div><div class="page-title">이용안내 관리</div><div class="page-sub">이용안내 및 기능별 사용 메뉴얼을 관리합니다. <span class="badge b-yellow" style="vertical-align:middle">런칭: 문서 링크로 제공</span></div></div>
+    <div class="page-actions"><button class="btn btn-primary">+ 문서 등록</button></div>
+  </div>
+
+  <div style="padding:12px 16px;background:var(--yellow-l);border:1px solid #FFE08A;border-radius:8px;margin-bottom:16px;font-size:12px;color:var(--yellow)">
+    ⚠ 런칭 단계에서는 Notion/Confluence 등 외부 문서 링크로 제공합니다. 고도화 단계에서 인앱 메뉴얼 빌더가 추가됩니다.
+  </div>
+
+  <div class="filter-bar">
+    <span class="f-label">카테고리</span>
+    <select class="input-md"><option>전체</option><option>서비스 소개</option><option>마케팅 채널</option><option>비즈챗</option><option>AI 챗봇</option><option>요금제</option></select>
+    <span class="f-label">대상</span>
+    <select class="input-sm"><option>전체</option><option>소호 업체</option><option>대행사</option></select>
+    <input type="search" class="input-lg" placeholder="문서 제목 검색">
+    <button class="btn btn-primary">검색</button>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head"><span class="tbl-count">총 <strong>18</strong>건</span></div>
+    <table>
+      <thead><tr>
+        <th>순서</th><th>카테고리</th><th>제목</th><th>대상</th><th>문서 링크</th><th>최종 수정일</th><th>상태</th><th>관리</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="badge b-blue">서비스 소개</span></td><td class="td-link">비즈플래닛 서비스 소개 및 시작 가이드</td><td>전체</td><td><a class="td-link" href="#">Notion 링크 ↗</a></td><td>2025.05.01</td><td><span class="badge b-green">게시 중</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-ghost btn-xs">수정</button><button class="btn btn-danger btn-xs">삭제</button></div></td></tr>
+        <tr><td>2</td><td><span class="badge b-gray">마케팅 채널</span></td><td class="td-link">마케팅 채널관리 기능 사용 메뉴얼</td><td>소호 업체</td><td><a class="td-link" href="#">Notion 링크 ↗</a></td><td>2025.05.03</td><td><span class="badge b-green">게시 중</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-ghost btn-xs">수정</button><button class="btn btn-danger btn-xs">삭제</button></div></td></tr>
+        <tr><td>3</td><td><span class="badge b-gray">비즈챗</span></td><td class="td-link">비즈챗 타겟 발송 설정 가이드</td><td>소호 업체</td><td><a class="td-link" href="#">Notion 링크 ↗</a></td><td>2025.05.05</td><td><span class="badge b-green">게시 중</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-ghost btn-xs">수정</button><button class="btn btn-danger btn-xs">삭제</button></div></td></tr>
+        <tr><td>4</td><td><span class="badge b-gray">AI 챗봇</span></td><td class="td-link">AI 챗봇 개설 및 지식 DB 구성 가이드</td><td>소호 업체</td><td><a class="td-link" href="#">Notion 링크 ↗</a></td><td>2025.05.07</td><td><span class="badge b-green">게시 중</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-ghost btn-xs">수정</button><button class="btn btn-danger btn-xs">삭제</button></div></td></tr>
+        <tr><td>5</td><td><span class="badge b-orange">요금제</span></td><td class="td-link">요금제 선택 가이드 및 비교표</td><td>전체</td><td><a class="td-link" href="#">Notion 링크 ↗</a></td><td>2025.04.20</td><td><span class="badge b-green">게시 중</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-ghost btn-xs">수정</button><button class="btn btn-danger btn-xs">삭제</button></div></td></tr>
+        <tr><td>6</td><td><span class="badge b-blue">서비스 소개</span></td><td class="td-link">대행사 어드민 관리 가이드</td><td>대행사</td><td><a class="td-link" href="#">Notion 링크 ↗</a></td><td>2025.04.15</td><td><span class="badge b-green">게시 중</span></td><td><div style="display:flex;gap:4px"><button class="btn btn-ghost btn-xs">수정</button><button class="btn btn-danger btn-xs">삭제</button></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+// iframe 안에서 로드된 경우 클래스 추가
+if (window.self !== window.top) {
+  document.documentElement.classList.add('in-frame');
+}
+</script>
+
+</body></html>

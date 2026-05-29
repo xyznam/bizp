@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>매장관리 — 비즈플래닛</title>
+<link rel="stylesheet" href="common.css">
+<script src="icons.js" defer></script>
+<style>
+/* 페이지 헤더 */
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.page-title{font-size:18px;font-weight:700;color:#1A1A2E}
+/* 필터바 */
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filter-bar-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+/* 셀렉트 드롭다운 */
+.f-select{height:30px;padding:0 28px 0 10px;border:1px solid #E2E8F0;border-radius:6px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:#4A5568;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239AA0B4'/%3E%3C/svg%3E") no-repeat right 8px center;appearance:none;cursor:pointer;outline:none}
+.f-select:focus{border-color:#3B5BDB}
+/* 기간 드롭다운 */
+.period-select-wrap{position:relative}
+.period-select-wrap .f-select{min-width:110px}
+/* 테이블 */
+.summary-bar{margin-bottom:12px}
+.summary-card-single{background:#fff;border:1px solid #E2E8F0;border-radius:8px;padding:12px 20px;display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.summary-item{display:flex;align-items:center;gap:8px;padding:4px 20px 4px 0}
+.summary-item+.summary-item{padding-left:20px;border-left:1px solid #E2E8F0}
+.summary-item-label{color:#9AA0B4;font-size:11px;white-space:nowrap;margin-right:4px}
+.summary-item-val{font-weight:700;color:#1A1A2E;font-size:14px}
+.tbl-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:8px;overflow-x:auto;overflow-y:visible}
+/* 페이징 */
+.paging-wrap{display:flex;align-items:center;justify-content:center;padding:14px 16px;border-top:1px solid #E2E8F0;gap:12px;position:relative}
+.paging-info{font-size:11px;color:#9AA0B4;position:absolute;left:16px}
+.pagination{display:flex;align-items:center;gap:4px}
+.pg-btn{width:28px;height:28px;border:1px solid #E2E8F0;border-radius:5px;font-size:12px;background:#fff;color:#4A5568;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif}
+.pg-btn:hover{background:#F7F8FA}
+.pg-btn.active{background:#3B5BDB;color:#fff;border-color:#3B5BDB;font-weight:700}
+.pg-btn.disabled{opacity:.4;cursor:default;pointer-events:none}
+.page-size-select{height:28px;padding:0 24px 0 8px;border:1px solid #E2E8F0;border-radius:6px;font-size:11px;font-family:'Noto Sans KR',sans-serif;color:#4A5568;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239AA0B4'/%3E%3C/svg%3E") no-repeat right 6px center;appearance:none;cursor:pointer;outline:none}
+.page-size-wrap{display:flex;align-items:center;gap:6px;font-size:11px;color:#9AA0B4}
+
+.tbl{width:100%;table-layout:fixed;word-break:keep-all}
+.tbl thead th{text-align:center}
+.tbl td.td-center{text-align:center!important}
+.tbl th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+.tbl th.sortable:hover{color:#3B5BDB}
+.sort-icon{display:inline-flex;flex-direction:column;gap:1px;margin-left:3px;opacity:.35;vertical-align:middle}
+.sort-icon i{display:block;width:0;height:0;border-left:3px solid transparent;border-right:3px solid transparent}
+.sort-icon i.up{border-bottom:3px solid currentColor}
+.sort-icon i.down{border-top:3px solid currentColor}
+th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:#3B5BDB}
+th.sort-asc .sort-icon i.down{opacity:.25}
+th.sort-desc .sort-icon i.up{opacity:.25}
+.td-num{text-align:center!important;font-weight:500;white-space:nowrap}
+.td-num.zero{color:#9AA0B4!important;font-weight:400}
+.td-num.warn{color:#C92A2A!important;font-weight:700}
+.td-login-old{color:#E8590C;font-weight:500}
+.td-login-vold{color:#C92A2A;font-weight:500}
+/* 가입현황 뱃지 */
+.status-badge{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap}
+.s-approved{background:#EBFBEE;color:#2F9E44}
+.s-pending{background:#FFF9DB;color:#F08C00}
+.s-waiting{background:#F1F3F5;color:#868E96}
+.s-cancelled{background:#FFF5F5;color:#C92A2A}
+/* 요주의 태그 */
+.issue-tags{display:flex;align-items:center;gap:4px}
+.itag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;white-space:nowrap}
+.itag.red{background:#FFF5F5;color:#C92A2A}
+.itag.orange{background:#FFF4E6;color:#E8590C}
+.itag.yellow{background:#FFF9DB;color:#F08C00}
+
+.itag-more:hover{background:#F7F8FA;color:#3B5BDB}
+
+.tooltip-box.show{display:flex}
+
+
+/* 매장 상세 버튼 */
+.detail-btn{height:26px;padding:0 10px;background:#F7F8FA;border:1px solid #E2E8F0;border-radius:5px;font-size:11px;font-weight:600;color:#3B5BDB;cursor:pointer;font-family:'Noto Sans KR',sans-serif;display:inline-flex;align-items:center;gap:3px;white-space:nowrap;flex-shrink:0}
+.detail-btn:hover{background:#3B5BDB;color:#fff;border-color:#3B5BDB}
+/* 합계 행 */
+.tbl tbody tr.total-row{background:#F7F8FA}
+.tbl tbody tr.total-row td{font-weight:700;color:#1A1A2E;border-bottom:2px solid #E2E8F0}
+/* 검색 */
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);pointer-events:none}
+.search-input{height:30px;padding:0 10px 0 30px;border:1px solid #E2E8F0;border-radius:6px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:#1A1A2E;background:#fff;outline:none;width:160px}
+.search-input:focus{border-color:#3B5BDB}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,20,32,.45);display:flex;align-items:center;justify-content:center;z-index:1000}
+.modal-backdrop.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-breadcrumb">대행사 <span>매장관리</span></div>
+</div>
+<div class="main-content">
+
+  <!-- 페이지 헤더 -->
+  <div class="page-header">
+    <div class="page-title">매장관리</div>
+  </div>
+
+  <!-- 필터바 -->
+  <div class="filter-bar">
+    <select class="f-select" id="filterIssue" onchange="render()">
+      <option value="">요주의</option>
+      <option value="장기미접속">요주의 전체</option>
+      <option value="장기미접속">장기미접속</option>
+      <option value="콘텐츠장기방치">콘텐츠장기방치</option>
+      <option value="AI학습실패">AI학습실패</option>
+    </select>
+    <select class="f-select" id="filterCategory" onchange="render()">
+      <option value="">업종 전체</option>
+      <option value="치킨">치킨</option>
+      <option value="카페">카페</option>
+      <option value="헬스">헬스</option>
+      <option value="음식점">음식점</option>
+      <option value="의료">의료</option>
+      <option value="뷰티">뷰티</option>
+      <option value="기타">기타</option>
+    </select>
+    <select class="f-select" id="filterCity" onchange="onCityChange()">
+      <option value="">시/도 전체</option>
+      <option value="서울시">서울시</option>
+      <option value="경기도">경기도</option>
+      <option value="인천시">인천시</option>
+      <option value="부산시">부산시</option>
+      <option value="대구시">대구시</option>
+    </select>
+    <select class="f-select" id="filterDistrict" onchange="render()" disabled style="color:#9AA0B4">
+      <option value="">시/군/구 전체</option>
+    </select>
+    <select class="f-select" id="filterBizchat" onchange="render()">
+      <option value="">비즈챗 전체</option>
+      <option value="on">사용</option>
+      <option value="off">미사용</option>
+    </select>
+    <select class="f-select" id="filterChatbot" onchange="render()">
+      <option value="">챗봇 전체</option>
+      <option value="on">사용</option>
+      <option value="off">미사용</option>
+    </select>
+          
+    <div class="filter-bar-right">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9AA0B4" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" type="text" placeholder="매장명 / 업체명 검색" id="searchInput" oninput="render()">
+      </div>
+      <select class="f-select" id="periodSelect" onchange="onPeriodChange()" style="min-width:120px">
+        <option value="7">최근 7일</option>
+        <option value="30">최근 30일</option>
+        <option value="month">월별 보기</option>
+        <option value="year">연도별 보기</option>
+      </select>
+      <select class="f-select" id="monthSelect" onchange="render()" style="min-width:80px;display:none">
+        <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
+        <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
+        <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
+        <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
+      </select>
+      <select class="f-select" id="yearSelect" onchange="render()" style="min-width:90px;display:none">
+        <option value="2026">2026년</option>
+        <option value="2025">2025년</option>
+        <option value="2024">2024년</option>
+        <option value="2023">2023년</option>
+        <option value="2022">2022년</option>
+        <option value="2021">2021년</option>
+        <option value="2020">2020년</option>
+        <option value="2019">2019년</option>
+        <option value="2018">2018년</option>
+        <option value="2017">2017년</option>
+        <option value="2016">2016년</option>
+      </select>
+      <div class="page-size-wrap">목록 수 <select class="page-size-select" onchange="setPageSize(this)"><option value="10" selected>10개</option><option value="20">20개</option><option value="50">50개</option></select></div>
+    </div>
+  </div>
+
+  <!-- 합계 바 -->
+  <div class="summary-bar"><div class="summary-card-single" id="summaryBar"></div></div>
+
+  <!-- 테이블 -->
+  <div class="tbl-wrap">
+    <table class="tbl" id="agencyTable">
+      <thead>
+        <tr>
+          <th class="sortable" onclick="sortBy('name')" style="width:18%">매장명<span class="sort-icon"><i class="up"></i><i class="down"></i></span></th>
+          <th style="width:6%">업종</th>
+          <th style="width:9%">지역</th>
+          <th class="sortable" onclick="sortBy('login')" style="width:10%">마지막 로그인<span class="sort-icon"><i class="up"></i><i class="down"></i></span></th>
+          <th class="sortable" onclick="sortBy('blog')" style="width:10%">블로그 발행<span class="sort-icon"><i class="up"></i><i class="down"></i></span></th>
+          <th class="sortable" onclick="sortBy('bizchat')" style="width:16%">비즈챗 발송<span class="sort-icon"><i class="up"></i><i class="down"></i></span></th>
+          <th class="sortable" onclick="sortBy('chatbot')" style="width:9%">챗봇 상담<span class="sort-icon"><i class="up"></i><i class="down"></i></span></th>
+          <th style="width:14%">요주의</th>
+          <th style="width:11%">매장정보</th>
+        </tr>
+      </thead>
+      <tbody id="agencyBody"></tbody>
+    </table>
+    <div class="paging-wrap">
+      <div class="paging-info" id="pagingInfo"></div>
+      <div class="pagination" id="pagingBtns"></div>
+    </div>
+</div>
+</div>
+
+</div>
+
+
+<script>
+const data = [
+  {name:'가나다 치킨', storeName:'가나다 치킨 본점', city:'서울시', district:'강남구', category:'치킨', bizchatOn:true, chatbotOn:true, blog:8, bizchat:3, target:1240, chatbot:24, loginDays:0, issues:[]},
+  {name:'가나다 치킨', storeName:'가나다 치킨-분당점', city:'경기도', district:'성남시', category:'치킨', bizchatOn:false, chatbotOn:false, blog:2, bizchat:0, target:0, chatbot:0, loginDays:1, issues:[]},
+  {name:'나라 카페', storeName:'나라 카페', city:'서울시', district:'마포구', category:'카페', bizchatOn:true, chatbotOn:false, blog:3, bizchat:1, target:580, chatbot:8, loginDays:3, issues:['AI학습실패']},
+  {name:'다온 헬스', storeName:'다온 헬스-강남점', city:'서울시', district:'강남구', category:'헬스', bizchatOn:false, chatbotOn:false, blog:0, bizchat:0, target:0, chatbot:0, loginDays:12, issues:['장기미접속']},
+  {name:'다온 헬스', storeName:'다온 헬스-서초점', city:'서울시', district:'서초구', category:'헬스', bizchatOn:false, chatbotOn:false, blog:0, bizchat:0, target:0, chatbot:0, loginDays:12, issues:[]},
+  {name:'다온 헬스', storeName:'다온 헬스-송파점', city:'서울시', district:'송파구', category:'헬스', bizchatOn:false, chatbotOn:false, blog:0, bizchat:0, target:0, chatbot:0, loginDays:5, issues:[]},
+  {name:'마루 스시', storeName:'마루 스시', city:'서울시', district:'종로구', category:'음식점', bizchatOn:true, chatbotOn:true, blog:6, bizchat:4, target:2100, chatbot:31, loginDays:0, issues:[]},
+  {name:'바른 피부과', storeName:'바른 피부과 본원', city:'서울시', district:'강남구', category:'의료', bizchatOn:false, chatbotOn:true, blog:2, bizchat:0, target:0, chatbot:5, loginDays:8, issues:['AI학습실패','장기미접속']},
+  {name:'바른 피부과', storeName:'바른 피부과-2호점', city:'경기도', district:'수원시', category:'의료', bizchatOn:false, chatbotOn:false, blog:0, bizchat:0, target:0, chatbot:2, loginDays:8, issues:[]},
+  {name:'사랑 미용실', storeName:'사랑 미용실', city:'경기도', district:'용인시', category:'뷰티', bizchatOn:true, chatbotOn:false, blog:4, bizchat:1, target:420, chatbot:9, loginDays:2, issues:[]},
+  {name:'아름 네일', storeName:'아름 네일', city:'인천시', district:'연수구', category:'뷰티', bizchatOn:false, chatbotOn:false, blog:1, bizchat:0, target:0, chatbot:2, loginDays:0, issues:['AI학습실패','콘텐츠장기방치']},
+  {name:'자연 한식당', storeName:'자연 한식당 본점', city:'서울시', district:'종로구', category:'음식점', bizchatOn:true, chatbotOn:true, blog:7, bizchat:5, target:3200, chatbot:44, loginDays:0, issues:[]},
+  {name:'자연 한식당', storeName:'자연 한식당-강남점', city:'서울시', district:'강남구', category:'음식점', bizchatOn:true, chatbotOn:false, blog:3, bizchat:2, target:800, chatbot:12, loginDays:1, issues:[]},
+  {name:'자연 한식당', storeName:'자연 한식당-홍대점', city:'서울시', district:'마포구', category:'음식점', bizchatOn:false, chatbotOn:false, blog:1, bizchat:0, target:0, chatbot:0, loginDays:3, issues:[]},
+  {name:'자연 한식당', storeName:'자연 한식당-신촌점', city:'서울시', district:'서대문구', category:'음식점', bizchatOn:false, chatbotOn:false, blog:0, bizchat:0, target:0, chatbot:0, loginDays:7, issues:[]},
+  {name:'차이 중식당', storeName:'차이 중식당', city:'경기도', district:'성남시', category:'음식점', bizchatOn:true, chatbotOn:false, blog:0, bizchat:2, target:680, chatbot:0, loginDays:15, issues:['장기미접속','콘텐츠장기방치']},
+  {name:'카페 하늘', storeName:'카페 하늘 본점', city:'경기도', district:'용인시', category:'카페', bizchatOn:true, chatbotOn:true, blog:3, bizchat:1, target:310, chatbot:7, loginDays:1, issues:[]},
+  {name:'카페 하늘', storeName:'카페 하늘-판교점', city:'경기도', district:'성남시', category:'카페', bizchatOn:false, chatbotOn:false, blog:1, bizchat:0, target:0, chatbot:0, loginDays:2, issues:[]},
+  {name:'타임 헬스', storeName:'타임 헬스-강남점', city:'서울시', district:'강남구', category:'헬스', bizchatOn:true, chatbotOn:true, blog:9, bizchat:6, target:4100, chatbot:52, loginDays:0, issues:[]},
+  {name:'타임 헬스', storeName:'타임 헬스-서초점', city:'서울시', district:'서초구', category:'헬스', bizchatOn:true, chatbotOn:false, blog:4, bizchat:2, target:1200, chatbot:15, loginDays:0, issues:[]},
+  {name:'타임 헬스', storeName:'타임 헬스-송파점', city:'서울시', district:'송파구', category:'헬스', bizchatOn:false, chatbotOn:false, blog:2, bizchat:0, target:0, chatbot:0, loginDays:1, issues:[]},
+  {name:'타임 헬스', storeName:'타임 헬스-마포점', city:'서울시', district:'마포구', category:'헬스', bizchatOn:false, chatbotOn:false, blog:1, bizchat:0, target:0, chatbot:0, loginDays:2, issues:[]},
+  {name:'타임 헬스', storeName:'타임 헬스-종로점', city:'서울시', district:'종로구', category:'헬스', bizchatOn:false, chatbotOn:false, blog:0, bizchat:0, target:0, chatbot:0, loginDays:5, issues:[]},
+  {name:'하나 세탁소', storeName:'하나 세탁소', city:'인천시', district:'부평구', category:'기타', bizchatOn:false, chatbotOn:false, blog:0, bizchat:1, target:190, chatbot:0, loginDays:20, issues:['장기미접속']},
+];
+
+const issueStyle={'AI학습실패':'red','콘텐츠장기방치':'orange','장기미접속':'yellow'};
+const issueDot={'AI학습실패':'#C92A2A','콘텐츠장기방치':'#E8590C','장기미접속':'#F08C00'};
+let curSort={col:'name',dir:'asc'};
+
+function statusBadge(s){
+  if(s==='승인')    return `<span class="status-badge s-approved">가입완료</span>`;
+  if(s==='승인대기') return `<span class="status-badge s-pending">승인대기</span>`;
+  if(s==='가입대기') return `<span class="status-badge s-waiting">가입대기</span>`;
+  if(s==='해지')    return `<span class="status-badge s-cancelled">해지</span>`;
+  return s;
+}
+function loginCell(d){
+  if(d===999) return {t:'-', c:'td-empty'};
+  if(d===0)   return {t:'오늘', c:''};
+  if(d<=7)    return {t:d+'일 전', c:''};
+  if(d<=14)   return {t:d+'일 전', c:'td-login-old'};
+  return {t:d+'일 전', c:'td-login-vold'};
+}
+function issueCell(issues){
+  if(!issues.length) return '<span style="color:#9AA0B4;font-size:11px">-</span>';
+  return '<div class="issue-tags">' + issues.map(i=>`<span class="itag ${issueStyle[i]||'yellow'}">${i}</span>`).join('') + '</div>';
+}
+function toggleTip(el){
+  const box=el.querySelector('.tooltip-box');
+  document.querySelectorAll('.tooltip-box.show').forEach(b=>{if(b!==box)b.classList.remove('show');});
+  box.classList.toggle('show');
+}
+document.addEventListener('click',()=>document.querySelectorAll('.tooltip-box.show').forEach(b=>b.classList.remove('show')));
+
+// 페이징
+let curPage = 1;
+let pageSize = 10;
+
+function paginate(data) {
+  const total = data.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (curPage > totalPages) curPage = 1;
+  if (curPage < 1) curPage = 1;
+  const start = (curPage - 1) * pageSize;
+  const paged = data.slice(start, start + pageSize);
+  return { paged, total, totalPages, start };
+}
+
+function renderPaging(total, totalPages, start) {
+  const end = Math.min(start + pageSize, total);
+  document.getElementById('pagingInfo').textContent = `전체 ${total}개 중 ${start+1}–${end}`;
+
+  let html = '';
+  html += `<button class="pg-btn${curPage===1?' disabled':''}" onclick="goPage(${curPage-1})">‹</button>`;
+
+  let startP = Math.max(1, curPage - 2);
+  let endP = Math.min(totalPages, startP + 4);
+  if (endP - startP < 4) startP = Math.max(1, endP - 4);
+
+  if (startP > 1) html += `<button class="pg-btn" onclick="goPage(1)">1</button>${startP>2?'<span style="color:#9AA0B4;font-size:11px;padding:0 2px">…</span>':''}`;
+  for (let i = startP; i <= endP; i++) {
+    html += `<button class="pg-btn${i===curPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if (endP < totalPages) html += `${endP<totalPages-1?'<span style="color:#9AA0B4;font-size:11px;padding:0 2px">…</span>':''}<button class="pg-btn" onclick="goPage(${totalPages})">${totalPages}</button>`;
+
+  html += `<button class="pg-btn${curPage===totalPages?' disabled':''}" onclick="goPage(${curPage+1})">›</button>`;
+  document.getElementById('pagingBtns').innerHTML = html;
+}
+
+function goPage(p) {
+  const totalPages = Math.max(1, Math.ceil(getFiltered().length / pageSize));
+  if (p < 1 || p > totalPages) return;
+  curPage = p;
+  render();
+}
+
+function setPageSize(el) {
+  pageSize = parseInt(el.value);
+  curPage = 1;
+  render();
+}
+
+function getFiltered(){
+  let d=[...data];
+  const q=document.getElementById('searchInput').value.trim().toLowerCase();
+  const issue=document.getElementById('filterIssue').value;
+  const bizchat=document.getElementById('filterBizchat').value;
+  const chatbot=document.getElementById('filterChatbot').value;
+  const cat=document.getElementById('filterCategory').value;
+  const city=document.getElementById('filterCity').value;
+  const district=document.getElementById('filterDistrict').value;
+  if(q)        d=d.filter(r=>(r.storeName||r.name).toLowerCase().includes(q));
+  if(issue)    d=d.filter(r=>r.issues.includes(issue));
+  if(cat)      d=d.filter(r=>r.category===cat);
+  if(city)     d=d.filter(r=>r.city===city);
+  if(district) d=d.filter(r=>r.district===district);
+  if(bizchat) d=d.filter(r=>bizchat==='on'?r.bizchatOn:!r.bizchatOn);
+  if(chatbot) d=d.filter(r=>chatbot==='on'?r.chatbotOn:!r.chatbotOn);
+  const keyMap={name:'name',blog:'blog',bizchat:'bizchat',chatbot:'chatbot',login:'loginDays'};
+  const k=keyMap[curSort.col]||'name';
+  d.sort((a,b)=>{
+    if(a[k]<b[k]) return curSort.dir==='asc'?-1:1;
+    if(a[k]>b[k]) return curSort.dir==='asc'?1:-1;
+    return 0;
+  });
+  return d;
+}
+
+function render(){
+  const filtered=getFiltered();
+  const {paged:d, total, totalPages, start}=paginate(filtered);
+  renderPaging(total, totalPages, start);
+  document.getElementById('summaryBar').innerHTML = `
+    <div class="summary-item"><span class="summary-item-label">전체 매장</span><span class="summary-item-val">${filtered.length}개</span></div>
+    <div class="summary-item"><span class="summary-item-label">블로그 발행</span><span class="summary-item-val">${filtered.reduce((a,r)=>a+r.blog,0)}건</span></div>
+    <div class="summary-item"><span class="summary-item-label">비즈챗 발송</span><span class="summary-item-val">${filtered.reduce((a,r)=>a+r.bizchat,0)}건 / ${filtered.reduce((a,r)=>a+r.target,0).toLocaleString()}명</span></div>
+    <div class="summary-item"><span class="summary-item-label">챗봇 상담</span><span class="summary-item-val">${filtered.reduce((a,r)=>a+r.chatbot,0)}건</span></div>
+  `;
+
+  let html='';
+  if(!d.length){
+    html+=`<tr><td colspan="9" style="text-align:center;padding:32px;color:#9AA0B4">조건에 맞는 업체가 없습니다.</td></tr>`;
+  } else {
+    d.forEach(r=>{
+      const l=loginCell(r.loginDays);
+      html+=`<tr>
+        <td style="font-weight:600">${r.storeName||r.name}</td>
+        <td style="color:#4A5568">${r.category}</td>
+        <td style="color:#4A5568;font-size:11px">${r.city&&r.district?r.city+' '+r.district:'-'}</td>
+        <td class="td-center ${l.c}">${l.t}</td>
+        <td class="td-num${r.blog===0?' zero':''}">${r.blog===0?'-':r.blog+'건'}</td>
+        <td class="td-num${r.bizchat===0?' zero':''}">${r.bizchat===0?'-':r.bizchat+'건 / '+r.target.toLocaleString()+'명'}</td>
+        <td class="td-num${r.chatbot===0?' zero':''}">${r.chatbot===0?'-':r.chatbot+'건'}</td>
+        <td>${issueCell(r.issues)}</td>
+        <td><button class="detail-btn">매장정보 →</button></td>
+      </tr>`;
+    });
+  }
+  document.getElementById('agencyBody').innerHTML=html;
+}
+
+function sortBy(col){
+  if(curSort.col===col){ curSort.dir=curSort.dir==='asc'?'desc':'asc'; }
+  else { curSort.col=col; curSort.dir=col==='name'?'asc':'desc'; }
+  document.querySelectorAll('#agencyTable thead th').forEach(th=>th.classList.remove('sort-asc','sort-desc'));
+  const idx={name:0,login:2,blog:3,bizchat:4,chatbot:5}[col];
+  if(idx!==undefined) document.querySelectorAll('#agencyTable thead th')[idx].classList.add(curSort.dir==='asc'?'sort-asc':'sort-desc');
+  render();
+}
+
+
+const districtMap = {"서울시": ["강남구", "서초구", "송파구", "마포구", "종로구", "중구", "용산구", "서대문구", "성동구", "광진구", "동작구", "관악구"], "경기도": ["성남시", "수원시", "용인시", "화성시", "고양시", "부천시", "안산시", "안양시", "남양주시", "평택시"], "인천시": ["연수구", "부평구", "남동구", "서구", "미추홀구", "계양구"], "부산시": ["해운대구", "수영구", "남구", "동래구", "연제구", "부산진구"], "대구시": ["수성구", "달서구", "중구", "동구", "서구", "북구"]};
+
+function onCityChange() {
+  const city = document.getElementById('filterCity').value;
+  const distSel = document.getElementById('filterDistrict');
+  distSel.innerHTML = '<option value="">시/군/구 전체</option>';
+  if (city && districtMap[city]) {
+    districtMap[city].forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d; opt.textContent = d;
+      distSel.appendChild(opt);
+    });
+    distSel.disabled = false;
+    distSel.style.color = '';
+  } else {
+    distSel.disabled = true;
+    distSel.style.color = '#9AA0B4';
+  }
+  render();
+}
+
+function onPeriodChange(){
+  const val = document.getElementById('periodSelect').value;
+  const monthSel = document.getElementById('monthSelect');
+  const yearSel  = document.getElementById('yearSelect');
+  // 현재 월을 기본값으로
+  const now = new Date();
+  monthSel.value = now.getMonth() + 1;
+  yearSel.value  = "2026";
+
+  if(val === 'month'){
+    monthSel.style.display = '';
+    yearSel.style.display  = '';
+  } else if(val === 'year'){
+    monthSel.style.display = 'none';
+    yearSel.style.display  = '';
+  } else {
+    monthSel.style.display = 'none';
+    yearSel.style.display  = 'none';
+  }
+  render();
+}
+
+
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="icons.js"></script>
+<style>
+.top-tab-row{display:flex;border-bottom:1px solid #E2E8F0;margin-bottom:20px;background:#fff}
+.top-tab{padding:10px 18px;font-size:13px;color:#9AA0B4;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.top-tab:hover{color:#4A5568}
+.top-tab.active{color:#3B5BDB;font-weight:600;border-bottom-color:#3B5BDB}
+.sub-tab-row{display:flex;border-bottom:1px solid #E2E8F0;margin-bottom:16px}
+.sub-tab{padding:8px 14px;font-size:12px;color:#9AA0B4;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.sub-tab:hover{color:#4A5568}
+.sub-tab.active{color:#3B5BDB;font-weight:600;border-bottom-color:#3B5BDB}
+.color-swatch{width:20px;height:20px;border-radius:4px;border:1px solid #E2E8F0;display:inline-block;margin-right:6px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; <span>마케팅 전략 룰셋</span></div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('modal-reset').style.display='flex'">초기화</button>
+    <button class="btn btn-primary btn-sm" onclick="document.getElementById('modal-save').style.display='flex'">저장</button>
+  </div>
+</div>
+<div class="main-content">
+  <div class="page-title">마케팅 전략 룰셋</div>
+
+  <!-- 상위 탭 -->
+  <div class="top-tab-row">
+    <div class="top-tab active" onclick="showTop('store',this)">매장 정보</div>
+    <div class="top-tab" onclick="showTop('brand',this)">우리 매장 분석</div>
+    <div class="top-tab" onclick="showTop('write',this)">글쓰기 스타일</div>
+    <div class="top-tab" onclick="showTop('img',this)">이미지 스타일</div>
+  </div>
+
+  <!-- 매장 정보 -->
+  <div id="sec-store">
+    <div class="card">
+      <div class="card-header">매장 정보</div>
+      <div class="card-body">
+        <div class="ruleset-field"><div class="ruleset-label">상호명 <span class="src-ai">AI 수집</span></div><div class="ruleset-val">분당 베이커리</div></div>
+        <div class="ruleset-field"><div class="ruleset-label">카테고리 <span class="src-ai">AI 수집</span></div><div class="ruleset-val">베이커리·케이크</div></div>
+        <div class="ruleset-field"><div class="ruleset-label">주소 <span class="src-ai">AI 수집</span></div><div class="ruleset-val">경기 성남시 분당구 정자일로 95</div></div>
+        <div class="ruleset-field">
+          <div class="ruleset-label">운영시간 <span class="src-edited">수정됨</span></div>
+          <div class="ruleset-val edited">월~금 10:00–20:00, 토 11:00–19:00</div>
+          <div class="ruleset-hint">재학습 시 자동 업데이트되지 않습니다.</div>
+        </div>
+        <div class="ruleset-field"><div class="ruleset-label">휴무일 <span class="src-ai">AI 수집</span></div><div class="ruleset-val">매주 월요일</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 우리 매장 분석 -->
+  <div id="sec-brand" style="display:none">
+    <div class="card">
+      <div class="card-header">우리 매장 분석</div>
+      <div class="card-body">
+        <div class="ruleset-field"><div class="ruleset-label">포지셔닝 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">분당·수지 지역 커스텀 케이크 전문점 / 당일 제작 가능한 케이크 맛집</div><div class="ruleset-hint">시장 내 위치·차별점 요약</div></div>
+        <div class="ruleset-field"><div class="ruleset-label">업체 주장 강점 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">당일 제작 가능, 레터링 케이크 전문, 다양한 커스텀 옵션</div></div>
+        <div class="ruleset-field"><div class="ruleset-label">대표 메뉴 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">커스텀 레터링 케이크 (48,000원~), 딸기 생크림 케이크 (32,000원)</div></div>
+        <div class="ruleset-field"><div class="ruleset-label">주 타겟층 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">20–40대 분당·수지 지역 여성 / 생일·기념일 케이크 구매 고객</div></div>
+        <div class="ruleset-field">
+          <div class="ruleset-label">콘텐츠 소재 키워드 <span class="src-ai">AI 분석</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px">
+            <span style="padding:3px 10px;border-radius:12px;background:#F7F8FA;color:#4A5568;border:1px solid #E2E8F0;font-size:12px">분당 케이크</span>
+            <span style="padding:3px 10px;border-radius:12px;background:#F7F8FA;color:#4A5568;border:1px solid #E2E8F0;font-size:12px">레터링케이크</span>
+            <span style="padding:3px 10px;border-radius:12px;background:#F7F8FA;color:#4A5568;border:1px solid #E2E8F0;font-size:12px">커스텀케이크</span>
+            <span style="padding:3px 10px;border-radius:12px;background:#F7F8FA;color:#4A5568;border:1px solid #E2E8F0;font-size:12px">당일제작</span>
+            <span style="padding:3px 10px;border-radius:12px;background:#F7F8FA;color:#4A5568;border:1px solid #E2E8F0;font-size:12px">생일케이크</span>
+          </div>
+          <div class="ruleset-hint">콘텐츠 자동 생성 시 주제 소재로 활용됩니다.</div>
+        </div>
+        <div class="ruleset-field"><div class="ruleset-label">리뷰 강점 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">예쁜 케이크 디자인, 친절한 사장님, 빠른 제작</div><div class="ruleset-hint">콘텐츠에서 적극 부각할 소재입니다.</div></div>
+        <div class="ruleset-field">
+          <div class="ruleset-label">리뷰 약점 <span class="src-ai">AI 분석</span></div>
+          <div class="ruleset-val">주차 공간 협소, 현금 결제 불가 언급</div>
+          <div class="warn-box" style="margin-top:6px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C92A2A" stroke-width="1.8" style="flex-shrink:0;margin-top:1px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>콘텐츠에서 직접 언급하지 않습니다. 보완 전략 수립 참고용으로만 활용됩니다.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 글쓰기 스타일 -->
+  <div id="sec-write" style="display:none">
+    <div class="card">
+      <div class="card-header">글쓰기 스타일</div>
+      <div class="card-body" style="padding-bottom:0">
+        <div class="sub-tab-row">
+          <div class="sub-tab active" onclick="showSub('write','common',this)">공통</div>
+          <div class="sub-tab" onclick="showSub('write','insta',this)">인스타그램</div>
+          <div class="sub-tab" onclick="showSub('write','blog',this)">블로그</div>
+        </div>
+        <div id="write-common">
+          <div class="ruleset-field"><div class="ruleset-label">톤 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">친근하고 감성적인 구어체 / 과장 없는 사실 기반</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">캐치프레이즈 <span class="src-edited">수정됨</span></div><div class="ruleset-val edited">특별한 날을 더 특별하게 / 분당에서 제일 예쁜 케이크</div><div class="ruleset-hint">재학습 시 자동 업데이트되지 않습니다.</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">피할 문구 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">강추드려요, 완전 맛있어요 반복, 최고의 케이크</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">개그 레벨 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">낮음 — 가벼운 언어 유희만</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">트렌드 민감도 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">중간 — 시즌 트렌드 반영</div></div>
+        </div>
+        <div id="write-insta" style="display:none">
+          <div class="ruleset-field"><div class="ruleset-label">글의 목적 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">비주얼 중심 브랜딩·신규 고객 유입</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">문장 스타일 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">짧은 감탄·단정 서술, 해시태그로 마무리</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">선호 길이 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">캡션 80–150자 + 해시태그</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">해시태그 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">#분당케이크 #수지케이크 #레터링케이크 #커스텀케이크 #당일제작케이크</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">이모지 사용 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">문장 끝 1–2개 허용</div></div>
+        </div>
+        <div id="write-blog" style="display:none">
+          <div class="ruleset-field"><div class="ruleset-label">글의 목적 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">검색 유입 + 상세 설명</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">문장 스타일 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">방문기 형식, 의문형 도입 후 단정 서술</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">선호 길이 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">본문 700–1,000자 + 사진 8장 이상</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">SEO 키워드 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">제목·소제목에 지역+메뉴 키워드 삽입 (예: 분당 레터링케이크)</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">CTA <span class="src-ai">AI 분석</span></div><div class="ruleset-val">예약·방문 유도</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">이모지 사용 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">사용 안 함</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 이미지 스타일 -->
+  <div id="sec-img" style="display:none">
+    <div class="card">
+      <div class="card-header">이미지 스타일</div>
+      <div class="card-body" style="padding-bottom:0">
+        <div class="sub-tab-row">
+          <div class="sub-tab active" onclick="showSub('img','common',this)">공통</div>
+          <div class="sub-tab" onclick="showSub('img','insta',this)">인스타그램</div>
+          <div class="sub-tab" onclick="showSub('img','blog',this)">블로그</div>
+        </div>
+        <div id="img-common">
+          <div class="ruleset-field">
+            <div class="ruleset-label">주 사용 색상 <span class="src-ai">AI 분석</span></div>
+            <div style="display:flex;align-items:center;gap:16px">
+              <span><span class="color-swatch" style="background:#FAD9E3"></span><span style="font-size:12px;color:#4A5568">#FAD9E3 파스텔 핑크</span></span>
+              <span><span class="color-swatch" style="background:#FFFFFF"></span><span style="font-size:12px;color:#4A5568">#FFFFFF 흰색</span></span>
+            </div>
+          </div>
+          <div class="ruleset-field">
+            <div class="ruleset-label">강조 색상 <span class="src-ai">AI 분석</span></div>
+            <div style="display:flex;align-items:center;">
+              <span><span class="color-swatch" style="background:#E8A0BF"></span><span style="font-size:12px;color:#4A5568">#E8A0BF 로즈 핑크</span></span>
+            </div>
+          </div>
+          <div class="ruleset-field"><div class="ruleset-label">이미지 무드 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">밝고 감성적인 자연광, 따뜻한 톤, 케이크 디테일 강조</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">주 사용 스타일 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">감성적 미니멀, 케이크 클로즈업 중심</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">피할 스타일 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">어두운 톤, 과도한 필터, 복잡한 배경</div></div>
+        </div>
+        <div id="img-insta" style="display:none">
+          <div class="ruleset-field"><div class="ruleset-label">비율·포맷 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">정방형 1:1 또는 세로 4:5 / 1080×1080px</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">주 사용 스타일 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">감성 접사·플랫레이 중심</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">텍스트 오버레이 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">카드뉴스형 가능, 로고 워터마크 삽입</div></div>
+        </div>
+        <div id="img-blog" style="display:none">
+          <div class="ruleset-field"><div class="ruleset-label">비율·포맷 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">가로 3:2 권장, 최소 8장 / 1200×800px 이상</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">주 사용 스타일 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">전체샷·디테일샷·공간샷 혼합</div></div>
+          <div class="ruleset-field"><div class="ruleset-label">텍스트 오버레이 <span class="src-ai">AI 분석</span></div><div class="ruleset-val">이미지 내 텍스트 최소화</div><div class="ruleset-hint">이미지 내 과도한 텍스트는 SEO 불이익</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 저장 모달 -->
+<div id="modal-save" class="modal-backdrop" style="display:none">
+  <div class="modal modal-sm">
+    <div class="modal-title">매장정보에도 반영할까요?</div>
+    <div class="modal-desc">운영시간이 수정되었습니다. 매장정보에도 동일하게 업데이트하시겠습니까?</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-save').style.display='none'">매장정보는 유지</button>
+      <button class="btn btn-primary" onclick="document.getElementById('modal-save').style.display='none'">함께 업데이트</button>
+    </div>
+  </div>
+</div>
+
+<!-- 초기화 모달 -->
+<div id="modal-reset" class="modal-backdrop" style="display:none">
+  <div class="modal modal-sm">
+    <div class="modal-title">룰셋을 초기화할까요?</div>
+    <div class="modal-desc">직접 수정한 내용이 모두 사라지고 AI 분석값으로 되돌아갑니다. 계속하시겠습니까?</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-reset').style.display='none'">취소</button>
+      <button class="btn btn-danger" onclick="document.getElementById('modal-reset').style.display='none'">초기화 확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTop(id, el){
+  ['store','brand','write','img'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  document.getElementById('sec-'+id).style.display='block';
+  document.querySelectorAll('.top-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function showSub(parent, id, el){
+  ['common','insta','blog'].forEach(s=>{
+    const el2 = document.getElementById(parent+'-'+s);
+    if(el2) el2.style.display='none';
+  });
+  document.getElementById(parent+'-'+id).style.display='block';
+  el.closest('.card-body').querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

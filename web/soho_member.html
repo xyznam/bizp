@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>직원 관리 — 비즈플래닛</title>
+<link rel="stylesheet" href="common.css">
+<script src="icons.js" defer></script>
+<style>
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.page-title{font-size:18px;font-weight:700;color:#1A1A2E}
+.tab-wrap{display:flex;border-bottom:2px solid #E2E8F0;margin-bottom:16px}
+.tab-item{padding:10px 20px;font-size:13px;font-weight:500;color:#9AA0B4;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab-item:hover{color:#4A5568}
+.tab-item.active{color:#3B5BDB;font-weight:700;border-bottom-color:#3B5BDB}
+.tab-cnt{font-size:11px;margin-left:4px}
+.tab-item.active .tab-cnt{color:#3B5BDB}
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.filter-bar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);pointer-events:none}
+.search-input{height:30px;padding:0 10px 0 30px;border:1px solid #E2E8F0;border-radius:6px;font-size:12px;font-family:'Noto Sans KR',sans-serif;color:#1A1A2E;background:#fff;outline:none;width:180px}
+.search-input:focus{border-color:#3B5BDB}
+/* 상태 뱃지 */
+.s-badge{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap}
+.s-active{background:#EBFBEE;color:#2F9E44}
+.s-pending{background:#FFF9DB;color:#F08C00}
+.s-inactive{background:#FFF5F5;color:#C92A2A}
+/* 액션 버튼 */
+.action-btns{display:flex;gap:6px}
+.act-btn{height:26px;padding:0 10px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;display:inline-flex;align-items:center;border:1px solid}
+.act-btn.approve{background:#EBFBEE;color:#2F9E44;border-color:#B2F2BB}
+.act-btn.approve:hover{background:#2F9E44;color:#fff;border-color:#2F9E44}
+.act-btn.deactivate{background:#FFF5F5;color:#C92A2A;border-color:#FFC9C9}
+.act-btn.deactivate:hover{background:#C92A2A;color:#fff;border-color:#C92A2A}
+.act-btn.activate{background:#F1F3F5;color:#4A5568;border-color:#E2E8F0}
+.act-btn.activate:hover{background:#4A5568;color:#fff;border-color:#4A5568}
+/* 테이블 */
+.tbl-wrap{background:#fff;border:1px solid #E2E8F0;border-radius:8px;overflow-x:auto;overflow-y:visible}
+/* 페이징 */
+.paging-wrap{display:flex;align-items:center;justify-content:center;padding:14px 16px;border-top:1px solid #E2E8F0;gap:12px;position:relative}
+.paging-info{font-size:11px;color:#9AA0B4;position:absolute;left:16px}
+.pagination{display:flex;align-items:center;gap:4px}
+.pg-btn{width:28px;height:28px;border:1px solid #E2E8F0;border-radius:5px;font-size:12px;background:#fff;color:#4A5568;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif}
+.pg-btn:hover{background:#F7F8FA}
+.pg-btn.active{background:#3B5BDB;color:#fff;border-color:#3B5BDB;font-weight:700}
+.pg-btn.disabled{opacity:.4;cursor:default;pointer-events:none}
+.page-size-select{height:28px;padding:0 24px 0 8px;border:1px solid #E2E8F0;border-radius:6px;font-size:11px;font-family:'Noto Sans KR',sans-serif;color:#4A5568;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239AA0B4'/%3E%3C/svg%3E") no-repeat right 6px center;appearance:none;cursor:pointer;outline:none}
+.page-size-wrap{display:flex;align-items:center;gap:6px;font-size:11px;color:#9AA0B4}
+
+.tbl{width:100%;table-layout:fixed}
+/* 모달 */
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,20,32,.45);display:flex;align-items:center;justify-content:center;z-index:1000}
+.modal-backdrop.hidden{display:none}
+.warn-text{font-size:12px;color:#C92A2A;background:#FFF5F5;border:1px solid #FFC9C9;border-radius:6px;padding:10px 12px;margin-bottom:16px;line-height:1.6}
+/* 초대링크 박스 */
+.invite-link-box{background:#F7F8FA;border:1px solid #E2E8F0;border-radius:6px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.invite-link-url{font-size:12px;color:#3B5BDB;word-break:break-all;flex:1}
+.invite-meta{font-size:11px;color:#9AA0B4;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-breadcrumb">대행사 <span>대행사 직원관리</span></div>
+</div>
+<div class="main-content">
+
+  <div class="page-header">
+    <div class="page-title">대행사 직원관리</div>
+    <button class="btn btn-primary" onclick="openInviteModal()">
+      <span data-icon="plus" data-size="13" data-color="#fff"></span>직원 등록
+    </button>
+  </div>
+
+  <!-- 탭 -->
+  <div class="tab-wrap">
+    <div class="tab-item active" onclick="setTab('all',this)">전체 <span class="tab-cnt">5</span></div>
+    <div class="tab-item" onclick="setTab('pending',this)">가입대기 <span class="tab-cnt" style="color:#F08C00">1</span></div>
+    <div class="tab-item" onclick="setTab('active',this)">이용중 <span class="tab-cnt" style="color:#2F9E44">3</span></div>
+    <div class="tab-item" onclick="setTab('inactive',this)">비활성 <span class="tab-cnt" style="color:#C92A2A">1</span></div>
+  </div>
+
+  <!-- 필터 -->
+  <div class="filter-bar">
+    <div class="filter-bar-right">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9AA0B4" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" type="text" placeholder="직원명 / 연락처 검색" id="searchInput" oninput="render()">
+      </div>
+      <div class="page-size-wrap">목록 수 <select class="page-size-select" onchange="setPageSize(this)"><option value="10" selected>10개</option><option value="20">20개</option><option value="50">50개</option></select></div>
+    </div>
+  </div>
+
+  <!-- 테이블 -->
+  <div class="tbl-wrap">
+    <table class="tbl" id="staffTable">
+      <thead>
+        <tr>
+          <th style="width:13%;text-align:center">직원명</th>
+          <th style="width:10%;text-align:center">권한</th>
+          <th style="width:15%;text-align:center">연락처</th>
+          <th style="width:12%;text-align:center">등록일</th>
+          <th style="width:12%;text-align:center">가입일</th>
+          <th style="width:10%;text-align:center">상태</th>
+          <th style="width:28%;text-align:center">액션</th>
+        </tr>
+      </thead>
+      <tbody id="staffBody"></tbody>
+    </table>
+    <div class="paging-wrap">
+      <div class="paging-info" id="pagingInfo"></div>
+      <div class="pagination" id="pagingBtns"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 직원 초대 모달 -->
+<div class="modal-backdrop hidden" id="inviteModal">
+  <div class="modal">
+    <div class="modal-title">직원 등록</div>
+    <div class="modal-desc">초대 링크를 생성하여 직원에게 전달하세요. 링크는 24시간 동안 유효하며 1회만 사용 가능합니다.</div>
+    <div id="inviteLinkWrap" style="display:none">
+      <div class="invite-link-box">
+        <div style="flex:1">
+          <div class="invite-link-url" id="inviteLinkUrl"></div>
+          <div class="invite-meta" id="inviteLinkMeta"></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="copyLink()">복사</button>
+      </div>
+      <div class="hint-box">
+        <span data-icon="info" data-size="13" data-color="#F08C00"></span>
+        링크를 카카오톡이나 문자로 직원에게 전달하세요. 직원이 링크 접속 후 본인인증을 완료하면 자동으로 가입됩니다.
+      </div>
+    </div>
+    <div id="inviteBtnWrap">
+      <button class="btn btn-primary" style="width:100%" onclick="generateLink()">
+        <span data-icon="plus" data-size="13" data-color="#fff"></span>초대 링크 생성
+      </button>
+    </div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn btn-ghost" onclick="closeModal('inviteModal')">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 등록취소 모달 -->
+<div class="modal-backdrop hidden" id="cancelRegModal">
+  <div class="modal modal-sm">
+    <div class="modal-title">등록취소</div>
+    <div class="warn-text">⚠ 등록취소 시 해당 직원의 초대가 철회되며 가입이 불가합니다.</div>
+    <div class="modal-desc" id="cancelRegDesc"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('cancelRegModal')">취소</button>
+      <button class="btn btn-danger" onclick="confirmCancelReg()">등록취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- 비활성화 모달 -->
+<div class="modal-backdrop hidden" id="deactivateModal">
+  <div class="modal modal-sm">
+    <div class="modal-title">비활성화</div>
+    <div class="warn-text">⚠ 비활성화 시 해당 직원은 즉시 로그인이 불가합니다.</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('deactivateModal')">취소</button>
+      <button class="btn btn-danger" onclick="confirmDeactivate()">비활성화</button>
+    </div>
+  </div>
+</div>
+
+<!-- 활성화 모달 -->
+<div class="modal-backdrop hidden" id="activateModal">
+  <div class="modal modal-sm">
+    <div class="modal-title">이용중</div>
+    <div class="modal-desc" id="activateDesc"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('activateModal')">취소</button>
+      <button class="btn btn-primary" onclick="confirmActivate()">이용중</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = [
+  {name:'김담당', phone:'010-1111-2222', regDate:'2026/03/01', joinDate:'2026/03/02', status:'active',  role:'관리자'},
+  {name:'이매니저', phone:'010-2222-3333', regDate:'2026/03/05', joinDate:'2026/03/06', status:'active',  role:'직원'},
+  {name:'박직원', phone:'010-3333-4444', regDate:'2026/04/01', joinDate:'2026/04/02', status:'active',  role:'직원'},
+  {name:'최신입', phone:'010-4444-5555', regDate:'2026/05/20', joinDate:'-',          status:'pending', role:'직원'},
+  {name:'정퇴직', phone:'010-5555-6666', regDate:'2026/02/01', joinDate:'2026/02/02', status:'inactive', role:'직원'},
+];
+
+const statusMap = {
+  active:  {label:'이용중',    cls:'s-active'},
+  pending: {label:'가입대기', cls:'s-pending'},
+  inactive:{label:'비활성',  cls:'s-inactive'},
+};
+
+let curTab = 'all';
+let curTarget = null;
+
+function actionBtns(r, idx) {
+  let html = '<div class="action-btns">';
+  if (r.status === 'pending') {
+    html += `<button class="act-btn deactivate" onclick="openCancelReg(${idx})">등록취소</button>`;
+  } else if (r.status === 'active') {
+    html += `<button class="act-btn deactivate" onclick="openDeactivate(${idx})">비활성화</button>`;
+  } else if (r.status === 'inactive') {
+    html += `<button class="act-btn activate" onclick="openActivate(${idx})">활성화</button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+
+let curPage = 1;
+let pageSize = 10;
+
+function paginate(data) {
+  const total = data.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (curPage > totalPages) curPage = totalPages;
+  const start = (curPage - 1) * pageSize;
+  return { paged: data.slice(start, start + pageSize), total, totalPages, start };
+}
+
+function renderPaging(total, totalPages, start) {
+  const end = Math.min(start + pageSize, total);
+  document.getElementById('pagingInfo').textContent = `전체 ${total}개 중 ${start+1}–${end}`;
+  let html = '';
+  html += `<button class="pg-btn${curPage===1?' disabled':''}" onclick="goPage(${curPage-1})">‹</button>`;
+  let sp = Math.max(1, curPage-2), ep = Math.min(totalPages, sp+4);
+  if (ep-sp<4) sp = Math.max(1,ep-4);
+  if (sp>1) html += `<button class="pg-btn" onclick="goPage(1)">1</button>${sp>2?'<span style="color:#9AA0B4;font-size:11px;padding:0 2px">…</span>':''}`;
+  for (let i=sp;i<=ep;i++) html += `<button class="pg-btn${i===curPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  if (ep<totalPages) html += `${ep<totalPages-1?'<span style="color:#9AA0B4;font-size:11px;padding:0 2px">…</span>':''}<button class="pg-btn" onclick="goPage(${totalPages})">${totalPages}</button>`;
+  html += `<button class="pg-btn${curPage===totalPages?' disabled':''}" onclick="goPage(${curPage+1})">›</button>`;
+  document.getElementById('pagingBtns').innerHTML = html;
+}
+
+function goPage(p) {
+  const total = getFiltered().length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (p<1||p>totalPages) return;
+  curPage = p; render();
+}
+
+function setPageSize(el) { pageSize = parseInt(el.value); curPage = 1; render(); }
+
+function getFiltered() {
+  let d = data.map((r, i) => ({...r, idx: i}));
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (q) d = d.filter(r => r.name.toLowerCase().includes(q) || r.phone.includes(q));
+  if (curTab !== 'all') d = d.filter(r => r.status === curTab);
+  return d;
+}
+
+function render() {
+  const filtered = getFiltered();
+  const {paged:d, total, totalPages, start} = paginate(filtered);
+  renderPaging(total, totalPages, start);
+  let html = '';
+  if (!d.length) {
+    html = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#9AA0B4">조건에 맞는 직원이 없습니다.</td></tr>`;
+  } else {
+    d.forEach(r => {
+      const s = statusMap[r.status];
+      html += `<tr>
+        <td style="font-weight:600;text-align:center">${r.name}</td>
+        <td style="text-align:center;color:#4A5568">${r.role}</td>
+        <td style="text-align:center;color:#4A5568">${r.phone}</td>
+        <td style="text-align:center;color:#4A5568">${r.regDate}</td>
+        <td style="text-align:center;color:${r.joinDate==='-'?'#9AA0B4':'#4A5568'}">${r.joinDate}</td>
+        <td style="text-align:center"><span class="s-badge ${s.cls}">${s.label}</span></td>
+        <td style="text-align:center">${actionBtns(r, r.idx)}</td>
+      </tr>`;
+    });
+  }
+  document.getElementById('staffBody').innerHTML = html;
+}
+
+function setTab(tab, el) {
+  curTab = tab;
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+// 초대링크
+function openInviteModal() {
+  document.getElementById('inviteLinkWrap').style.display = 'none';
+  document.getElementById('inviteBtnWrap').style.display = 'block';
+  document.getElementById('inviteModal').classList.remove('hidden');
+}
+function generateLink() {
+  const fakeLink = 'https://bizplanet.co.kr/join/staff?token=a1b2c3d4e5f6';
+  const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const expiryStr = `${expiry.getMonth()+1}/${expiry.getDate()} ${expiry.getHours()}:${String(expiry.getMinutes()).padStart(2,'0')} 만료`;
+  document.getElementById('inviteLinkUrl').textContent = fakeLink;
+  document.getElementById('inviteLinkMeta').textContent = `유효기간: ${expiryStr} · 1회 사용 가능`;
+  document.getElementById('inviteLinkWrap').style.display = 'block';
+  document.getElementById('inviteBtnWrap').style.display = 'none';
+}
+function copyLink() {
+  const url = document.getElementById('inviteLinkUrl').textContent;
+  navigator.clipboard.writeText(url).then(() => alert('링크가 복사되었습니다.'));
+}
+
+// 등록취소
+function openCancelReg(idx) {
+  curTarget = idx;
+  document.getElementById('cancelRegDesc').textContent = `"${data[idx].name}"의 등록을 취소하시겠습니까?`;
+  document.getElementById('cancelRegModal').classList.remove('hidden');
+}
+function confirmCancelReg() {
+  if (curTarget !== null) data.splice(curTarget, 1);
+  closeModal('cancelRegModal');
+  render();
+}
+
+// 비활성화
+function openDeactivate(idx) {
+  curTarget = idx;
+  document.getElementById('deactivateModal').classList.remove('hidden');
+}
+function confirmDeactivate() {
+  if (curTarget !== null) data[curTarget].status = 'inactive';
+  closeModal('deactivateModal');
+  render();
+}
+
+// 활성화
+function openActivate(idx) {
+  curTarget = idx;
+  document.getElementById('activateDesc').textContent = `"${data[idx].name}"을(를) 다시 활성화하시겠습니까?`;
+  document.getElementById('activateModal').classList.remove('hidden');
+}
+function confirmActivate() {
+  if (curTarget !== null) data[curTarget].status = 'active';
+  closeModal('activateModal');
+  render();
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+  curTarget = null;
+}
+document.querySelectorAll('.modal-backdrop').forEach(m => {
+  m.addEventListener('click', function(e) { if (e.target === this) closeModal(this.id); });
+});
+
+render();
+</script>
+</body>
+</html>

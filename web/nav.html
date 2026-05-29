@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:#0F1420;height:100vh;overflow-y:auto}
+.sb-logo{padding:18px 18px 14px;font-size:16px;font-weight:700;color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo em{color:#6B8FFF;font-style:normal}
+.sb-section{padding:16px 18px 4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.6px}
+a.sb-item{display:flex;align-items:center;gap:8px;padding:8px 18px;font-size:12px;color:rgba(255,255,255,.5);border-left:2px solid transparent;cursor:pointer;text-decoration:none}
+a.sb-item:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.8)}
+a.sb-item.active{background:rgba(59,91,219,.2);color:#fff;font-weight:600;border-left-color:#3B5BDB}
+a.sb-item.sub{padding-left:36px;font-size:11px}
+.sb-group-label{display:flex;align-items:center;gap:8px;padding:8px 18px;font-size:12px;color:rgba(255,255,255,.5);cursor:default}
+.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.4);margin-top:auto}
+.sidebar-inner{display:flex;flex-direction:column;min-height:100vh}
+svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0}
+</style>
+</head>
+<body>
+<script src="icons.js"></script>
+<div class="sidebar-inner">
+  <div class="sb-logo">Biz<em>Planet</em></div>
+
+  <div style="flex:1">
+    <div class="sb-section">대행사</div>
+    <a href="agency_dashboard.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="layout-dashboard" data-size="14" data-color="currentColor"></span> 대시보드
+    </a>
+    <a href="agency_member_biz.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="check-square" data-size="14" data-color="currentColor"></span> 업체관리
+    </a>
+    <a href="agency_list.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="file-text" data-size="14" data-color="currentColor"></span> 매장관리
+    </a>
+    <a href="agency_member_staff.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="check-square" data-size="14" data-color="currentColor"></span> 대행사 직원관리
+    </a>
+
+    <div class="sb-section">매장 관리</div>
+    <a href="soho_dashboard.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="layout-dashboard" data-size="14" data-color="currentColor"></span> 대시보드
+    </a>
+    <a href="soho_store_register.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="map-pin" data-size="14" data-color="currentColor"></span> 매장 정보 등록
+    </a>
+
+    <div class="sb-section">마케팅 채널관리</div>
+
+    <a href="03_AI학습_온보딩.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="brain" data-size="14" data-color="currentColor"></span> AI 학습 설정
+    </a>
+    <a href="06_AI학습_현황.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span data-icon="check-square" data-size="14" data-color="currentColor"></span> AI 학습 현황
+    </a>
+
+    <a href="07_마케팅전략룰셋.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span class="icon-sliders" data-icon="sliders" data-size="14" data-color="currentColor"></span> 마케팅 전략 룰셋
+    </a>
+
+    <a href="02_블로그관리.html" target="main" class="sb-item" onclick="setActive(this)">
+      <span class="icon-file-text" data-icon="file-text" data-size="14" data-color="currentColor"></span> 블로그 관리
+    </a>
+
+    <div class="sb-section" style="margin-top:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding-right:18px" onclick="toggleRef()">
+      참고화면
+      <span id="ref-arrow" data-icon="chevron-right" data-size="12" data-color="rgba(255,255,255,.25)"></span>
+    </div>
+    <div id="ref-links" style="display:none">
+      <a href="01_대시보드_온보딩전.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="layout-dashboard" data-size="14" data-color="currentColor"></span> 대시보드 (학습 전)
+      </a>
+      <a href="04_AI학습_수집중.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="loader" data-size="14" data-color="currentColor"></span> 수집 실행 중
+      </a>
+      <a href="06_AI학습_현황_수집실패.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="alert-circle" data-size="14" data-color="currentColor"></span> 수집 실패
+      </a>
+      <a href="06_AI학습_현황_분석실패.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="alert-triangle" data-size="14" data-color="currentColor"></span> 분석 실패
+      </a>
+      <a href="06_AI학습_현황_재학습중.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="loader" data-size="14" data-color="currentColor"></span> 재학습 중
+      </a>
+      <a href="09_AI콘텐츠생성_상세.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="file-check" data-size="14" data-color="currentColor"></span> 콘텐츠 상세
+      </a>
+      <a href="10_블로그_발행대기_상세.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="clock" data-size="14" data-color="currentColor"></span> 발행 대기 상세
+      </a>
+      <a href="11_블로그_발행완료_상세.html" target="main" class="sb-item sub" onclick="setActive(this)">
+        <span data-icon="check" data-size="14" data-color="currentColor"></span> 발행 완료 상세
+      </a>
+    </div>
+  </div>
+
+  <div class="sb-footer">
+    <div style="font-weight:600;color:rgba(255,255,255,.6);margin-bottom:2px">홍길동 사장님</div>
+    <div>분당 베이커리</div>
+  </div>
+</div>
+<script>
+
+function toggleRef(){
+  const links = document.getElementById('ref-links');
+  const arrow = document.getElementById('ref-arrow');
+  const open = links.style.display === 'none';
+  links.style.display = open ? 'block' : 'none';
+  arrow.setAttribute('data-icon', open ? 'chevron-down' : 'chevron-right');
+  // 아이콘 직접 갱신
+  const size = 12, color = 'rgba(255,255,255,.25)';
+  const paths = {
+    'chevron-down': '<polyline points="6 9 12 15 18 9"/>',
+    'chevron-right': '<polyline points="9 18 15 12 9 6"/>'
+  };
+  const name = arrow.getAttribute('data-icon');
+  arrow.outerHTML = `<svg id="ref-arrow" data-icon="${name}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0">${paths[name]}</svg>`;
+}
+
+function setActive(el){
+  document.querySelectorAll('a.sb-item').forEach(a=>a.classList.remove('active'));
+  el.classList.add('active');
+}
+// 첫 항목 활성화
+document.querySelector('a.sb-item').classList.add('active');
+</script>
+</body>
+</html>

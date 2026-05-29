@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="icons.js"></script>
+<style>
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card-title{font-size:13px;font-weight:700;color:#1A1A2E;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.card-link{font-size:11px;color:#3B5BDB;font-weight:600;cursor:pointer;text-decoration:none}
+.card-link:hover{text-decoration:underline}
+
+/* 채널 등록 현황 */
+.ch-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #EDF2F7}
+.ch-row:last-child{border-bottom:none}
+.ch-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ch-name{flex:1;font-size:12px;font-weight:600;color:#1A1A2E}
+.ch-meta{font-size:11px;color:#9AA0B4;text-align:right;line-height:1.5}
+
+/* 마케팅 전략 현황 */
+.strategy-meta{font-size:11px;color:#9AA0B4;margin-bottom:12px;display:flex;gap:12px}
+.strategy-meta strong{color:#4A5568;font-weight:600}
+.strategy-row{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px solid #EDF2F7;font-size:12px}
+.strategy-row:last-child{border-bottom:none}
+.strategy-key{color:#9AA0B4;font-weight:600;white-space:nowrap;min-width:80px;flex-shrink:0}
+.strategy-val{color:#1A1A2E;line-height:1.6}
+.kw-tags{display:flex;flex-wrap:wrap;gap:5px}
+.kw-tag{padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.kw-owner{background:#EEF2FF;color:#3B5BDB}
+.kw-ai{background:#EBFBEE;color:#2F9E44}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+
+/* 타임라인 */
+.tl-wrap{overflow-x:auto}
+.tl-grid{min-width:680px}
+.tl-header{display:flex;align-items:center;margin-bottom:4px}
+.tl-ch-col{width:80px;flex-shrink:0}
+.tl-dates-row{flex:1;display:grid;gap:1px}
+.tl-date{font-size:9px;color:#9AA0B4;text-align:center}
+.tl-date.today{color:#3B5BDB;font-weight:700}
+.tl-row{display:flex;align-items:center;border-top:1px solid #EDF2F7;padding:3px 0}
+.tl-ch-name{width:80px;flex-shrink:0;font-size:11px;color:#4A5568;font-weight:600}
+.tl-cells{flex:1;display:grid;gap:1px}
+.tl-cell{height:22px;display:flex;align-items:center;justify-content:center}
+.tl-dot{width:8px;height:8px;border-radius:50%;cursor:pointer;transition:.15s}
+.tl-dot:hover{transform:scale(1.5)}
+.tl-dot.published{background:#3B5BDB}
+.tl-dot.pending{background:#E8590C}
+.tl-dot.cancelled{background:#9AA0B4}
+.tl-dot.collected{background:#2F9E44}
+.tl-dot.scheduled{width:8px;height:8px;border-radius:50%;border:2px solid #2F9E44;background:transparent}
+.tl-legend{display:flex;gap:12px;margin-left:auto}
+.tl-legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#9AA0B4}
+.tl-dot-sm{width:8px;height:8px;border-radius:50%}
+
+/* 콘텐츠 목록 */
+.tbl-sub{font-size:11px;color:#9AA0B4}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; <span>대시보드 (학습 전)</span></div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-ghost btn-sm" onclick="location.href='02_블로그관리.html'">블로그 관리</button>
+  </div>
+</div>
+<div class="main-content">
+  <div class="empty-state" style="min-height:500px">
+    <div class="empty-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B5BDB" stroke-width="1.8"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg>
+    </div>
+    <div class="empty-title">아직 AI 학습이 완료되지 않았어요</div>
+    <div class="empty-desc">AI 학습을 시작하면 채널 콘텐츠를 분석하고 마케팅 전략을 자동으로 생성해드려요.<br>먼저 채널 설정을 등록해 주세요.</div>
+    <button class="btn btn-primary" onclick="location.href='03_AI학습_온보딩.html'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:inline-block;vertical-align:middle;margin-right:4px"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      AI 학습 시작하기
+    </button>
+  </div>
+</div>
+
+</body>
+</html>

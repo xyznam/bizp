@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+
+</head>
+<body>
+<script src="icons.js"></script>
+<div class="topbar">
+  <div class="topbar-breadcrumb">마케팅 채널관리 &rsaquo; <span>AI 콘텐츠 자동 생성</span></div>
+</div>
+<div class="main-content">
+  <div class="page-title">AI 콘텐츠 자동 생성</div>
+
+  <div class="grid-3" style="margin-bottom:20px">
+    <div class="kpi-card"><div class="kpi-label">다음 생성 예정일</div><div class="kpi-val" style="font-size:16px">2026.05.30</div></div>
+    <div class="kpi-card"><div class="kpi-label">생성 주기</div><div class="kpi-val" style="font-size:16px">2주마다</div></div>
+    <div class="kpi-card alert"><div class="kpi-label">승인 대기</div><div class="kpi-val" style="font-size:16px">2건</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">콘텐츠 목록</div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl" style="table-layout:fixed">
+        <thead>
+          <tr>
+            <th style="width:auto">제목</th>
+            <th style="width:88px">발행상태</th>
+            <th style="width:60px">SEO</th>
+            <th style="width:88px">생성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onclick="location.href='09_AI콘텐츠생성_상세.html'" style="cursor:pointer">
+            <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" class="td-link">분당 케이크 맛집 추천 — 커스텀 케이크 전문점 솔직 후기</td>
+            <td><span class="badge b-orange">승인 대기</span></td>
+            <td><span class="badge b-green" style="font-size:10px">84점</span></td>
+            <td>2026.05.23</td>
+          </tr>
+          <tr onclick="location.href='09_AI콘텐츠생성_상세.html'" style="cursor:pointer">
+            <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" class="td-link">어버이날 케이크 당일 제작 — 레터링 케이크 주문 방법</td>
+            <td><span class="badge b-orange">승인 대기</span></td>
+            <td><span class="badge b-yellow" style="font-size:10px">71점</span></td>
+            <td>2026.05.23</td>
+          </tr>
+          <tr>
+            <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">봄 시즌 딸기케이크 신메뉴 — 분당 베이커리 추천</td>
+            <td><span class="badge b-green">발행 요청</span></td>
+            <td><span class="badge b-green" style="font-size:10px">79점</span></td>
+            <td>2026.05.09</td>
+          </tr>
+          <tr>
+            <td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">분당 레터링케이크 커스텀 주문 후기</td>
+            <td><span class="badge b-gray">취소</span></td>
+            <td><span class="badge b-gray" style="font-size:10px">65점</span></td>
+            <td>2026.04.25</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button class="pg-btn disabled"><span class="icon-chevron-left" data-icon="chevron-left" data-size="12" data-color="currentColor"></span></button>
+    <button class="pg-btn active">1</button>
+    <button class="pg-btn">2</button>
+    <button class="pg-btn"><span class="icon-chevron-right" data-icon="chevron-right" data-size="12" data-color="currentColor"></span></button>
+  </div>
+</div>
+<script></script>
+</body>
+</html>
